@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="17dp"/>
+
+    <View
+        android:id="@+id/title"
+        android:layout_width="328dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="17dp"
+        android:background="@color/light_transparent"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/des"
+        android:layout_width="164dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="17dp"
+        android:background="@color/light_transparent"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <View
+        android:id="@+id/divider_a"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="16dp"
+        android:background="#D3D3D3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/divider" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="63dp"
+        android:background="#fff2f4f7"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/des" />
+
+    <View
+        android:id="@+id/divider_b"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#D3D3D3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/persionline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="58dp"/>
+
+    <View
+        android:id="@+id/name"
+        android:layout_width="68dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="11dp"
+        android:background="@color/light_transparent"
+        app:layout_constraintLeft_toLeftOf="@+id/persionline"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <View
+        android:id="@+id/info"
+        android:layout_width="43dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="11dp"
+        android:background="@color/light_transparent"
+        app:layout_constraintLeft_toLeftOf="@+id/persionline"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+
+    <View
+        android:id="@+id/divider_p"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="16dp"
+        android:background="#D3D3D3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info" />
+
+
+    <View
+        android:id="@+id/line_1"
+        android:layout_width="328dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="17dp"
+        android:background="@color/light_transparent"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/divider_p" />
+
+    <View
+        android:id="@+id/line_2"
+        android:layout_width="328dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="17dp"
+        android:background="@color/light_transparent"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/line_1" />
+
+    <View
+        android:id="@+id/line_3"
+        android:layout_width="328dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="17dp"
+        android:background="@color/light_transparent"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/line_2" />
+
+    <View
+        android:id="@+id/line_4"
+        android:layout_width="176dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="17dp"
+        android:background="@color/light_transparent"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/line_3" />
+
+
+
+</android.support.constraint.ConstraintLayout>

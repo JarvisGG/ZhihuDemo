@@ -1,0 +1,121 @@
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.aspectj:aspectjtools:1.8.1'
+    }
+}
+
+
+apply plugin: 'com.android.application'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.jarvis.zhihudemo"
+        renderscriptTargetApi 25
+        renderscriptSupportModeEnabled true
+        minSdkVersion 23
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.jarvis:library:1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'jp.wasabeef:picasso-transformations:2.1.2'
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+    compile 'jp.wasabeef:blurry:2.1.1'
+    compile 'com.wonderkiln:blurkit:1.0.0'
+    compile 'com.facebook.fresco:fresco:1.5.0'
+    compile 'me.tatarka:gradle-retrolambda:3.4.0'
+    compile project(':plugin')
+    compile 'org.aspectj:aspectjrt:1.8.1'
+    compile 'com.github.jinatonic.confetti:confetti:1.1.1'
+    implementation 'com.ethanhua:skeleton:1.0.1'
+    implementation 'io.supercharge:shimmerlayout:1.0.2'
+}
+
+final def log = project.logger
+final def variants = project.android.applicationVariants
+
+variants.all { variant ->
+    if (!variant.buildType.isDebuggable()) {
+        log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
+        return;
+    }
+
+    JavaCompile javaCompile = variant.javaCompile
+    javaCompile.doLast {
+        String[] args = ["-showWeaveInfo",
+                         "-1.5",
+                         "-inpath", javaCompile.destinationDir.toString(),
+                         "-aspectpath", javaCompile.classpath.asPath,
+                         "-d", javaCompile.destinationDir.toString(),
+                         "-classpath", javaCompile.classpath.asPath,
+                         "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
+        log.debug "ajc args: " + Arrays.toString(args)
+
+        MessageHandler handler = new MessageHandler(true);
+        new Main().run(args, handler);
+        for (IMessage message : handler.getMessages(null, true)) {
+            switch (message.getKind()) {
+                case IMessage.ABORT:
+                case IMessage.ERROR:
+                case IMessage.FAIL:
+                    log.error message.message, message.thrown
+                    break;
+                case IMessage.WARNING:
+                    log.warn message.message, message.thrown
+                    break;
+                case IMessage.INFO:
+                    log.info message.message, message.thrown
+                    break;
+                case IMessage.DEBUG:
+                    log.debug message.message, message.thrown
+                    break;
+            }
+        }
+    }
+}
+
+
+

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GalleryCardView">
+        <attr name="bottomDragVisibleHeight" format="dimension" />
+        <attr name="bototmExtraIndicatorHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="InnerCardView3">
+        <attr name="bottomVisiableHeight" format="reference|dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="OverScrollLayout">
+        <attr name="dampingFactor" format="float" />
+        <attr name="dampingDirection">
+            <flag name="left" value="0x0001" />
+            <flag name="top" value="0x0010" />
+            <flag name="right" value="0x0100" />
+            <flag name="bottom" value="0x1000" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SlidingUpPanelLayout">
+        <attr name="zhPanelHeight" format="dimension" />
+        <attr name="zhShadowHeight" format="dimension" />
+        <attr name="zhParallaxOffset" format="dimension" />
+        <attr name="zhFadeColor" format="color" />
+        <attr name="zhFlingVelocity" format="integer" />
+        <attr name="zhDragView" format="reference" />
+        <attr name="zhScrollableView" format="reference" />
+        <attr name="zhOverlay" format="boolean"/>
+        <attr name="zhClipPanel" format="boolean"/>
+        <attr name="zhAnchorPoint" format="float" />
+        <attr name="zhInitialState" format="enum">
+            <enum name="expanded" value="0" />
+            <enum name="collapsed" value="1" />
+            <enum name="anchored" value="2" />
+            <enum name="hidden" value="3" />
+        </attr>
+        <attr name="zhPanelTopLimit" format="dimension" />
+        <attr name="zhScrollInterpolator" format="reference" />
+    </declare-styleable>
+</resources>

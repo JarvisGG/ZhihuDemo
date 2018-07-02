@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/top_bound"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_gravity="top"
+        android:foregroundGravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="84dp"
+                android:layout_height="20dp"
+                android:text="松开阅读全文"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_zhanswer_up"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</FrameLayout>

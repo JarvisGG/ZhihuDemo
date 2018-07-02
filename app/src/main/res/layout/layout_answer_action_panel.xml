@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2016 Zhihu Inc.
+  ~   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except 
+  ~ in compliance with the License. You may obtain a copy of the License at   
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0 
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software distributed under the License 
+  ~ is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  ~  or implied. See the License for the specific language governing permissions and limitations under 
+  ~ the License.
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/action_card"
+    android:layout_width="match_parent"
+    android:layout_height="112dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/menu_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/fake_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:animateLayoutChanges="true"
+            android:background="@color/BK99">
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@color/BK09"/>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp">
+
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@color/colorPrimaryTransparent"/>
+
+                    <ImageView
+                        android:id="@+id/edit_btn"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:foreground="?selectableItemBackgroundBorderless"
+                        android:orientation="vertical"
+                        android:src="@drawable/ic_edit_actionbar_icon" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@color/gold_med"/>
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:foreground="?selectableItemBackgroundBorderless"
+                        android:orientation="vertical"
+                        android:src="@drawable/ic_flag_actionbar_icon" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="#1400bcd4"/>
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:foreground="?selectableItemBackgroundBorderless"
+                        android:orientation="vertical"
+                        android:src="@drawable/ic_favorite_icon" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="#0084FF"/>
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:foreground="?selectableItemBackgroundBorderless"
+                        android:orientation="vertical"
+                        android:src="@drawable/ic_bookmark_icon" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/comment"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="#999999"/>
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:foreground="?selectableItemBackgroundBorderless"
+                        android:orientation="vertical"
+                        android:src="@drawable/ic_comment_icon" />
+
+                </FrameLayout>
+
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+

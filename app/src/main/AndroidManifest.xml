@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jarvis.zhihudemo">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".avtivity.GalleryActivity" />
+        <activity android:name=".avtivity.FloatViewActivity" />
+        <activity android:name=".avtivity.FloatDragViewActivity" />
+        <activity android:name=".avtivity.AndroidRDrawable" />
+        <activity android:name=".avtivity.GlideCrossActivity" />
+        <activity android:name=".avtivity.HybridActivity" />
+        <activity android:name=".avtivity.TextViewActivity" />
+        <activity android:name=".avtivity.MaterialActivity" />
+        <activity android:name=".avtivity.InnerCardActivity" />
+        <activity android:name=".avtivity.ConfettiActivity" />
+        <activity android:name=".avtivity.CustomLayoutMangerActivity"/>
+        <activity android:name=".avtivity.GalleryViewPagerActivity" />
+        <activity android:name=".avtivity.AnswerSkeletionActivity" />
+        <activity android:name=".avtivity.FragmentTestActivity" />
+        <activity android:name=".avtivity.AnswerNextTipActivity" />
+        <activity android:name=".avtivity.NestedScrollActivity" />
+        <activity android:name=".avtivity.CustomLayoutActivity" />
+        <activity android:name=".avtivity.ViewPagerActivity" />
+        <activity android:name=".avtivity.TipsHeaderRecyclerActivity" />
+        <activity android:name=".avtivity.CommentRecyclerActivity" />
+        <activity android:name=".avtivity.FragmentManagerActivity" />
+        <activity android:name=".avtivity.TopicActivity" />
+        <activity android:name=".avtivity.AnswerPagerActivity" />
+    </application>
+
+</manifest>

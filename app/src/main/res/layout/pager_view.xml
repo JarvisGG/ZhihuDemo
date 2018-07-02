@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/write_answer_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        >
+
+        <TextView
+            android:id="@+id/write_answer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:foreground="?selectableItemBackgroundBorderless"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textSize="13sp"
+            android:text="回答"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/go_to_all_answer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            android:text="查看全部回答"
+            />
+    </RelativeLayout>
+
+
+
+
+</FrameLayout>

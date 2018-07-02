@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jarvis.zhihudemo.widgets.blur.BlurView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/float_root"
+    android:layout_width="match_parent"
+    android:layout_height="78dp"
+    android:elevation="8dp"
+    android:outlineProvider="bounds"
+    app:blurOverlayColor="@color/colorOverlay"
+    tools:targetApi="lollipop">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="78dp">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:src="@drawable/head1"/>
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/logo"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"/>
+
+    </RelativeLayout>
+</com.jarvis.zhihudemo.widgets.blur.BlurView>

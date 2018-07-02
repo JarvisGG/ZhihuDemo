@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.jarvis.zhihudemo.view1.CustomView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="This is first child view"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="This is second child view"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="This is third child view"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="This is third child view"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="This is third child view"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="This is third child view"/>
+
+    </com.jarvis.zhihudemo.view1.CustomView>
+
+</FrameLayout>

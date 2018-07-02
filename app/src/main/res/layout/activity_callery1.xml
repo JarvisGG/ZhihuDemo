@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.jarvis.zhihudemo.view.SlidingUpPanelLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_drag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    app:zhPanelHeight="0dp"
+    app:zhShadowHeight="0dp"
+    app:zhParallaxOffset="0dp"
+    app:zhDragView="@+id/dragView"
+    app:zhOverlay="true"
+    app:zhPanelTopLimit="30dp"
+    android:clipChildren="true"
+    android:clipToPadding="true"
+    app:zhScrollableView="@+id/main_rv">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.jarvis.zhihudemo.view.widget.ViewPagerInter
+            android:id="@+id/main_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.jarvis.zhihudemo.view.widget.DirectionViewPagerBoundView
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="-100dp"
+            android:layout_gravity="top"
+            android:visibility="gone"/>
+
+        <com.jarvis.zhihudemo.view.widget.DirectionViewPagerBoundView
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="-100dp"
+            android:layout_gravity="bottom"
+            android:visibility="gone"/>
+
+        <com.jarvis.zhihudemo.view.AnswerPagerActionPanelView
+            android:id="@+id/main_panel"
+            android:layout_width="match_parent"
+            android:layout_height="112dp"
+            android:layout_gravity="bottom"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/main_co"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/slide_bg"
+        android:clickable="true"
+        android:focusable="false"
+        android:layout_marginBottom="-30dp"
+        android:layout_marginTop="30dp"
+        android:clipChildren="true"
+        android:clipToPadding="true">
+
+        <LinearLayout
+            android:id="@+id/main_comment"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:text="评论"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"/>
+
+            <Button
+                android:id="@+id/follow"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="14sp"
+                android:gravity="center_vertical|right"
+                android:paddingRight="30dp"
+                android:paddingLeft="10dp"/>
+
+        </LinearLayout>
+
+        <com.jarvis.library.widget.ZhihuRecyclerView
+            android:id="@+id/main_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="68dp"/>
+
+
+    </FrameLayout>
+
+
+</com.jarvis.zhihudemo.view.SlidingUpPanelLayout>
+

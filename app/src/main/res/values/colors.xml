@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorAccent">#009688</color>
+    <color name="colorOverlay">#78ffffff</color>
+    <color name="colorAccentOverlay">#1400bcd4</color>
+    <color name="colorTransparentBlack">#14000000</color>
+    <color name="colorPrimaryTransparent">#6400bcd4</color>
+    <color name="BK09">#EBEBEB</color>
+    <color name="BK99">#FFFFFF</color>
+    <color name="BL01">#0084FF</color>
+    <color name="BL03">#03A9F4</color>
+    <color name="BK06">#999999</color>
+
+    <color name="gold_dark">#946335</color>
+    <color name="gold_med">#ab804b</color>
+    <color name="gold">#cea774</color>
+    <color name="gold_light">#edd3b2</color>
+
+    <color name="inline_action_icon">#ff757575</color>
+</resources>

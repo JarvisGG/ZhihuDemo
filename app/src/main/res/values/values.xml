@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="big_confetti_size">36dp</dimen>
+    <dimen name="confetti_default_elevation">9999dp</dimen>
+    <dimen name="confetti_size">6dp</dimen>
+    <dimen name="explosion_radius">100dp</dimen>
+    <dimen name="velocity_fast">200dp</dimen>
+    <dimen name="velocity_normal">100dp</dimen>
+    <dimen name="velocity_slow">50dp</dimen>
+</resources>
