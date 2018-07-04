@@ -13,7 +13,9 @@ import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ActionMode;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -22,7 +24,10 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewParent;
 import android.webkit.WebView;
+import android.widget.OverScroller;
+import android.widget.ScrollView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static android.view.MotionEvent.ACTION_CANCEL;
@@ -31,7 +36,7 @@ import static android.view.MotionEvent.ACTION_CANCEL;
  * Created by yye on 2017/12/7.
  */
 
-public final class WebViewS extends WebView implements NestedScrollingChild {
+public class WebViewS extends WebView implements NestedScrollingChild {
 
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -57,6 +62,22 @@ public final class WebViewS extends WebView implements NestedScrollingChild {
     private int mMaximumVelocity;
     private VelocityTracker mVelocityTracker;
 
+    private GestureDetector mGestureDetector;
+
+    private OverScrolled overScrolled;
+
+    public interface OverScrolled {
+        void onFling(float velocityY);
+
+        void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY);
+
+        void onOverScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent);
+    }
+
+    public void registerOverScrolled(OverScrolled scrolled) {
+        overScrolled = scrolled;
+    }
+
     public WebViewS(Context context) {
         this(context, null);
     }
@@ -78,6 +99,22 @@ public final class WebViewS extends WebView implements NestedScrollingChild {
         final ViewConfiguration configuration = ViewConfiguration.get(getContext());
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
+        mGestureDetector = new GestureDetector(getContext(), sogl);
+    }
+
+    GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Log.e("onFling ------> ", "velocityY : " + velocityY);
+            overScrolled.onFling(velocityY);
+            return super.onFling(e1, e2, velocityX, velocityY);
+        }
+    };
+
+    @Override
+    public void flingScroll(int vx, int vy) {
+        super.flingScroll(vx, vy);
+        Log.e("flingScroll ------> ", "velocityY : " + vy);
     }
 
     @Override
@@ -92,6 +129,7 @@ public final class WebViewS extends WebView implements NestedScrollingChild {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
         if (mCallbacks != null) {
             switch (event.getActionMasked()) {
                 default:
@@ -290,13 +328,14 @@ public final class WebViewS extends WebView implements NestedScrollingChild {
 
     @Override
     protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+        Log.e("overScrollBy -----> ", " deltaY : " + deltaY + " scrollY : " + scrollY + " scrollRangeY : " +
+                scrollRangeY);
+        overScrolled.onOverScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
         if (mCallbacks != null) {
             mCallbacks.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
         }
         return super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
     }
-
-    ;
 
 
     @Override
@@ -428,6 +467,16 @@ public final class WebViewS extends WebView implements NestedScrollingChild {
 
         return false;
     }
+
+
+    @Override
+    protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
+        Log.e("onOverScrolled ------> ", "scrollX : " + scrollX + " scrollY : " + scrollY + " clampedX : " + clampedX + " clampedY : " + clampedY);
+        super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
+        overScrolled.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
+    }
+
+
 
     public enum ScrollState {
         STOP,

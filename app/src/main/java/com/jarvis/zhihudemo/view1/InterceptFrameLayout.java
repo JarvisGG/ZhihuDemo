@@ -1,10 +1,13 @@
 package com.jarvis.zhihudemo.view1;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -15,18 +18,20 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
+
+import com.jarvis.zhihudemo.view.hybrid.WebViewS;
 
 /**
  * @author yyf @ Zhihu Inc.
  * @since 06-26-2018
  */
-public class InterceptFrameLayout extends FrameLayout {
+public class InterceptFrameLayout extends FrameLayout implements NestedScrollingParent {
 
     private View mChildView;
 
     private ObjectAnimator mTransYAnim;
+    private ObjectAnimator currentAnimator;
 
     private float mLatestTouchDownY;
     private float mTouchSlop;
@@ -34,18 +39,35 @@ public class InterceptFrameLayout extends FrameLayout {
     private VelocityTracker velocityTracker;
     private float minFlingVelocity;
 
-    /** Snapshot of the touch's y position on a down event */
     private float downY;
 
-    /** Snapshot of the touch's x position on a down event */
     private float downX;
 
-    /** Snapshot of the sheet's translation at the time of the last down event */
     private float downSheetTranslation;
 
 
     public boolean bottomSheetOwnsTouch;
     private boolean sheetViewOwnsTouch;
+
+    private static float mFlingFriction = ViewConfiguration.getScrollFriction();
+    private static float DECELERATION_RATE = (float) (Math.log(0.78) / Math.log(0.9));
+    private static float mPhysicalCoeff;
+    private static final float INFLEXION = 0.35f;
+
+    private double getSplineDeceleration(int velocity) {
+        return Math.log(INFLEXION * Math.abs(velocity) / (mFlingFriction * mPhysicalCoeff));
+    }
+
+    private static double getSplineDecelerationByDistance(double distance) {
+        final double decelMinusOne = DECELERATION_RATE - 1.0;
+        return decelMinusOne * (Math.log(distance / (mFlingFriction * mPhysicalCoeff))) / DECELERATION_RATE;
+    }
+
+    public static int getVelocityByDistance(double distance) {
+        final double l = getSplineDecelerationByDistance(distance);
+        int velocity = (int) (Math.exp(l) * mFlingFriction * mPhysicalCoeff / INFLEXION);
+        return Math.abs(velocity);
+    }
 
 
     private boolean hasIntercepted;
@@ -54,7 +76,7 @@ public class InterceptFrameLayout extends FrameLayout {
 
     private float sheetTranslation;
 
-    private float currentTranslation;
+    private ObjectAnimator objectAnimator;
 
 
     private final Property<InterceptFrameLayout, Float> SHEET_TRANSLATION = new Property<InterceptFrameLayout, Float>(Float.class, "sheetTranslation") {
@@ -67,6 +89,37 @@ public class InterceptFrameLayout extends FrameLayout {
         public void set(InterceptFrameLayout object, Float value) {
             Log.e("setSheetTranslation2", value +"");
             object.setTranslation(value);
+        }
+    };
+
+    private int mDeltaY = 0;
+
+    private WebViewS.OverScrolled overScrolled = new WebViewS.OverScrolled() {
+        @Override
+        public void onFling(float velocityY) {
+
+        }
+
+        @Override
+        public void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
+            if (clampedY && (objectAnimator == null || !objectAnimator.isRunning())) {
+                objectAnimator = ObjectAnimator.ofFloat(InterceptFrameLayout.this, "translationY", 0, -mDeltaY * 2, 0);
+                objectAnimator.setDuration(500);
+                objectAnimator.setInterpolator(new DecelerateInterpolator(2));
+                objectAnimator.start();
+//                InterceptFrameLayout.this
+//                        .animate()
+//                        .translationY(mDeltaY)
+//                        .setDuration(500)
+//                        .setInterpolator(new DecelerateInterpolator(2))
+//                        .start();
+
+            }
+        }
+
+        @Override
+        public void onOverScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+            mDeltaY = deltaY;
         }
     };
 
@@ -94,7 +147,19 @@ public class InterceptFrameLayout extends FrameLayout {
         }
         mChildView = getChildAt(0);
 
+        if (mChildView instanceof WebViewS) {
+            ((WebViewS) mChildView).registerOverScrolled(overScrolled);
+        }
+
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+
+        float ppi = getContext().getResources().getDisplayMetrics().density * 160.0f;
+        mPhysicalCoeff = SensorManager.GRAVITY_EARTH // g (m/s^2)
+                * 39.37f // inch/meter
+                * ppi
+                * 0.84f;
+
+
     }
 
     @Override
@@ -152,7 +217,6 @@ public class InterceptFrameLayout extends FrameLayout {
 //        }
 //
 //        return false;
-
         boolean downAction = ev.getActionMasked() == MotionEvent.ACTION_DOWN;
 
         if (ev.getY() > getHeight() - sheetTranslation) {
@@ -165,6 +229,7 @@ public class InterceptFrameLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
 //        switch (event.getAction()) {
 //            case MotionEvent.ACTION_DOWN:
 //                break;
@@ -179,6 +244,10 @@ public class InterceptFrameLayout extends FrameLayout {
 //                break;
 //        }
 //        Log.e("parentLayout --> ", "onTouchEvent -> false");
+
+        if (isAnimating()) {
+            return false;
+        }
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
@@ -329,11 +398,33 @@ public class InterceptFrameLayout extends FrameLayout {
     }
 
     public void recover() {
-        ObjectAnimator anim = ObjectAnimator.ofFloat(this, SHEET_TRANSLATION, 0);
-        anim.setDuration(300);
-        anim.setInterpolator(new DecelerateInterpolator(1.6f));
+        currentAnimator = ObjectAnimator.ofFloat(this, SHEET_TRANSLATION, 0);
+        currentAnimator.setDuration(300);
+        currentAnimator.setInterpolator(new DecelerateInterpolator(1.6f));
+        currentAnimator.addListener(new CancelDetectionAnimationListener() {
+            @Override
+            public void onAnimationEnd(@NonNull Animator animation) {
+                if (!canceled) {
+                    currentAnimator = null;
+                }
+            }
+        });
+        currentAnimator.start();
 
-        anim.start();
+    }
+
+    private boolean isAnimating() {
+        return currentAnimator != null;
+    }
+
+    private static class CancelDetectionAnimationListener extends AnimatorListenerAdapter {
+
+        protected boolean canceled;
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            canceled = true;
+        }
 
     }
 
@@ -360,9 +451,63 @@ public class InterceptFrameLayout extends FrameLayout {
         mTransYAnim.start();
     }
 
+    @Override
+    protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+        return super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
+    }
+
     private float countDragDistanceFromMotionEvent(@NonNull MotionEvent event) {
         float distance = event.getRawY() - mLatestTouchDownY;
 
         return distance;
+    }
+
+    @Override
+    public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
+        Log.e("UpdatePager --> ", "onStartNestedScroll -> child : " + child.getTransitionName() + " target : " + target.getTransitionName());
+        return true;
+    }
+
+    @Override
+    public void onNestedScrollAccepted(View child, View target, int axes) {
+        Log.e("UpdatePager --> ", "onNestedScrollAccepted -> child : " + child.getTransitionName() + " target : " + target.getTransitionName());
+        super.onNestedScrollAccepted(child, target, axes);
+    }
+
+    @Override
+    public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
+        Log.e("UpdatePager --> ", "onNestedPreScroll -> target : " + target.getTransitionName() + " dx : " + dx + " dy : " + dy + " consumed : x : " + consumed[0] + " y : " + consumed[1]);
+        super.onNestedPreScroll(target, dx, dy, consumed);
+    }
+
+    @Override
+    public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+        Log.e("UpdatePager --> ", "onNestedScroll -> target : " + target.getTransitionName() + " dxConsumed : " + dxConsumed + " dyConsumed : " + dyConsumed + " dxUnconsumed : " + dxUnconsumed + " dyUnconsumed : " + dyUnconsumed);
+        super.onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
+    }
+
+    @Override
+    public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
+        Log.e("UpdatePager --> ", "onNestedPreFling -> target : " + target.getTransitionName() + " velocityX : " + velocityX + " velocityY : " + velocityY);
+        return super.onNestedPreFling(target, velocityX, velocityY);
+    }
+
+    @Override
+    public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
+        Log.e("UpdatePager --> ", "onNestedFling -> target : " + target.getTransitionName() + " velocityX : " + velocityX + " velocityY : " + velocityY + " consumed : " + consumed);
+        return super.onNestedFling(target, velocityX, velocityY, consumed);
+    }
+
+
+    @Override
+    public void onStopNestedScroll(View child) {
+        Log.e("UpdatePager --> ", "onStopNestedScroll -> child : " + child.getTransitionName());
+        super.onStopNestedScroll(child);
+    }
+
+    @Override
+    public int getNestedScrollAxes() {
+        Log.e("UpdatePager --> ", "getNestedScrollAxes");
+        return super.getNestedScrollAxes();
     }
 }

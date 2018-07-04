@@ -8,33 +8,34 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.webkit.WebView;
 
+import com.jarvis.zhihudemo.view.hybrid.WebViewS;
+
 /**
  * @author yyf @ Zhihu Inc.
  * @since 06-27-2018
  */
-public class CustiomWebView extends WebView {
+public class CustiomWebView extends WebViewS {
 
     private float mLatestTouchDownY;
     private float mTouchSlop;
 
     public CustiomWebView(Context context) {
         super(context);
+        initView();
     }
 
     public CustiomWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView();
     }
 
     public CustiomWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initView();
     }
 
-    public CustiomWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    public CustiomWebView(Context context, AttributeSet attrs, int defStyleAttr, boolean privateBrowsing) {
-        super(context, attrs, defStyleAttr, privateBrowsing);
+    public void initView() {
+        setNestedScrollingEnabled(true);
     }
 
     @Override
@@ -62,5 +63,10 @@ public class CustiomWebView extends WebView {
         boolean res = super.onTouchEvent(event);
         Log.e("webView --> ", "onTouchEvent -> " + res);
         return res;
+    }
+
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
     }
 }
