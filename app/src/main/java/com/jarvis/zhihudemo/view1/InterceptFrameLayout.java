@@ -45,6 +45,7 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
 
     private float downSheetTranslation;
 
+    private int mWebViewContentHeight;
 
     public boolean bottomSheetOwnsTouch;
     private boolean sheetViewOwnsTouch;
@@ -257,6 +258,10 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
             downX = event.getX();
             downSheetTranslation = sheetTranslation;
             velocityTracker.clear();
+
+            if (mChildView instanceof WebViewS) {
+                mWebViewContentHeight = (int) (((WebViewS)mChildView).getContentHeight() * ((WebViewS)mChildView).getScale());
+            }
         }
         getParent().requestDisallowInterceptTouchEvent(true);
 
@@ -289,6 +294,8 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
             boolean scrollingUp = deltaY > 0;
             boolean canScrollUp = canScrollUp(getChildAt(0), event.getX(), event.getY() + (sheetTranslation - getHeight()));
 
+            Log.e("onTouch --->", "scrollingDown : " + scrollingDown + " canScrollDown : " + canScrollDown + " scrollingUp : " + scrollingUp + " canScrollUp : " + canScrollUp);
+
             if (isHoldTouch && ((scrollingDown && !canScrollUp) || (scrollingUp && !canScrollDown))) {
                 downY = event.getY();
                 velocityTracker.clear();
@@ -302,7 +309,8 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
             }
 
             if (!isHoldTouch &&
-                    (((scrollingUp && !canScrollUp) && newSheetTranslation > maxSheetTranslation) || ((scrollingDown && !canScrollDown) && newSheetTranslation < maxSheetTranslation))) {
+                    (((scrollingUp && !canScrollUp) && newSheetTranslation > maxSheetTranslation) ||
+                            ((scrollingDown && !canScrollDown) && newSheetTranslation < maxSheetTranslation))) {
                 setSheetTranslation(maxSheetTranslation);
 
                 if ((scrollingUp && !canScrollUp) && newSheetTranslation > maxSheetTranslation) {
@@ -348,6 +356,11 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
     }
 
     private boolean canScrollUp(View view, float x, float y) {
+
+        if (view instanceof WebViewS) {
+            return canWebViewScrollUp();
+        }
+
         if (view instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup) view;
             for (int i = 0; i < vg.getChildCount(); i++) {
@@ -366,6 +379,11 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
     }
 
     private boolean canScrollDown(View view, float x, float y) {
+
+        if (view instanceof WebViewS) {
+            return canWebViewScrollDown();
+        }
+
         if (view instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup) view;
             for (int i = 0; i < vg.getChildCount(); i++) {
@@ -383,7 +401,23 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
         return view.canScrollVertically(1);
     }
 
+    private boolean canWebViewScrollUp() {
+        final int offset = mChildView.getScrollY();
+        final int range = mWebViewContentHeight - mChildView.getHeight();
+        if (range == 0) {
+            return false;
+        }
+        return offset > 0;
+    }
 
+    private boolean canWebViewScrollDown() {
+        final int offset = mChildView.getScrollY();
+        final int range = mWebViewContentHeight - mChildView.getHeight();
+        if (range == 0) {
+            return false;
+        }
+        return offset < range - 1;
+    }
     private void setSheetTranslation(float newTranslation) {
         this.sheetTranslation = newTranslation;
         int bottomClip = (int) (getHeight() - Math.ceil(sheetTranslation));
