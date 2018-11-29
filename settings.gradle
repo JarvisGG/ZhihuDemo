@@ -1,1 +1,1 @@
-include ':app', ':plugin', ':annotation', ':item-processor', ':item'
+include ':app', ':plugin', ':annotation', ':item-processor', ':item', ':bottomsheetexpandlib'

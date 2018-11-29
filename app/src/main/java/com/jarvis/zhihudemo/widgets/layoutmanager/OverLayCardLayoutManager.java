@@ -37,6 +37,9 @@ public class OverLayCardLayoutManager extends RecyclerView.LayoutManager {
     private void fill(RecyclerView.Recycler recycler, RecyclerView.State state) {
         int minPos = 0;
         int itemCount = getItemCount();
+        if (itemCount < 1) {
+            return;
+        }
         if (itemCount < 4) {
             minPos = 0;
         } else {

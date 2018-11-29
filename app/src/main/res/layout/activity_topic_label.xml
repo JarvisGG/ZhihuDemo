@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+        <com.jarvis.zhihudemo.view1.TopicLabelLayout
+            android:id="@+id/topic_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="400dp"
+            android:layout_marginEnd="13dp">
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交互设计" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交互设计交互设计" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交互设计叫" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交互设" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交互设计叫交互设计叫" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交互" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交互设计叫" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/editor_item_select_topic_bg"-->
+                <!--android:paddingLeft="8dp"-->
+                <!--android:paddingRight="8dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:layout_marginEnd="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textColor="@color/BL01"-->
+                    <!--android:text="交互设计叫交互设计叫" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingStart="2dp"-->
+                    <!--android:src="@drawable/editor_topic_delet_btn"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="120dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="1"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="2"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="3"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="4"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="220dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="5"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="6"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="330dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="7"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="120dp"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="8"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="9"-->
+                <!--android:background="@color/BL01"/>-->
+
+
+            <!--<TextView-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="10"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="220dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="11"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="12"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="330dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="13"-->
+                <!--android:visibility="visible"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="120dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="14"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="15"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="16"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="17"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="220dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="18"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="19"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="330dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="20"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="120dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="40dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginTop="5dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginBottom="5dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginStart="5dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginEnd="5dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:text="21"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@color/BL01"/>&ndash;&gt;-->
+
+            <!--<TextView-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="22"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="23"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="24"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="220dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="25"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="26"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="330dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="27"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="330dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="28"-->
+                <!--android:background="@color/BL01"/>-->
+
+
+            <!--<TextView-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="29"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="120dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="30"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="31"-->
+                <!--android:background="@color/BL01"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:layout_marginEnd="5dp"-->
+                <!--android:text="32"-->
+                <!--android:background="@color/BL01"/>-->
+
+        </com.jarvis.zhihudemo.view1.TopicLabelLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Add !"
+            android:layout_gravity="left|center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true" />
+
+        <Button
+            android:id="@+id/remove"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Remove !"
+            android:layout_gravity="right|center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

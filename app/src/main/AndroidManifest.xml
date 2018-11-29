@@ -44,6 +44,12 @@
         <activity android:name=".avtivity.FragmentManagerActivity" />
         <activity android:name=".avtivity.TopicActivity" />
         <activity android:name=".avtivity.AnswerPagerActivity" />
+        <activity android:name=".avtivity.OverScrollViewActivity" />
+        <activity android:name=".avtivity.ViewModelActivity" />
+        <activity android:name=".avtivity.ToolbarActivity" />
+        <activity android:name=".avtivity.ClipViewActivity" />
+        <activity android:name=".avtivity.CoordinatorActivity" />
+        <activity android:name=".avtivity.TopicLabelActivity" />
     </application>
 
 </manifest>

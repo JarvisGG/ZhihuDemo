@@ -1,29 +1,54 @@
-package com.jarvis.zhihudemo.widgets;
+/*
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+package com.jarvis.zhihudemo.widgets.animation;
 
 import android.os.Looper;
 import android.support.annotation.FloatRange;
 import android.support.v4.view.ViewCompat;
 import android.util.AndroidRuntimeException;
 import android.view.View;
+
 import java.util.ArrayList;
 
 /**
- * @author yyf @ Zhihu Inc.
- * @since 07-03-2018
+ * This class is the base class of physics-based animations. It manages the animation's
+ * lifecycle such as {@link #start()} and {@link #cancel()}. This base class also handles the common
+ * setup for all the subclass animations. For example, DynamicAnimation supports adding
+ * {@link OnAnimationEndListener} and {@link OnAnimationUpdateListener} so that the important
+ * animation events can be observed through the callbacks. The start conditions for any subclass of
+ * DynamicAnimation can be set using {@link #setStartValue(float)} and
+ * {@link #setStartVelocity(float)}.
+ *
+ * @param <T> subclass of DynamicAnimation
  */
 public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         implements AnimationHandler.AnimationFrameCallback {
+
     /**
      * ViewProperty holds the access of a property of a {@link View}. When an animation is
      * created with a {@link ViewProperty} instance, the corresponding property value of the view
      * will be updated through this ViewProperty instance.
      */
     public abstract static class ViewProperty extends FloatPropertyCompat<View> {
-        private ViewProperty(String name) {
+        public ViewProperty(String name) {
             super(name);
         }
     }
+
     /**
      * View's translationX property.
      */
@@ -32,11 +57,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setTranslationX(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getTranslationX();
         }
     };
+
     /**
      * View's translationY property.
      */
@@ -45,11 +72,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setTranslationY(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getTranslationY();
         }
     };
+
     /**
      * View's translationZ property.
      */
@@ -58,11 +87,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             ViewCompat.setTranslationZ(view, value);
         }
+
         @Override
         public float getValue(View view) {
             return ViewCompat.getTranslationZ(view);
         }
     };
+
     /**
      * View's scaleX property.
      */
@@ -71,11 +102,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setScaleX(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getScaleX();
         }
     };
+
     /**
      * View's scaleY property.
      */
@@ -84,11 +117,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setScaleY(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getScaleY();
         }
     };
+
     /**
      * View's rotation property.
      */
@@ -97,11 +132,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setRotation(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getRotation();
         }
     };
+
     /**
      * View's rotationX property.
      */
@@ -110,11 +147,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setRotationX(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getRotationX();
         }
     };
+
     /**
      * View's rotationY property.
      */
@@ -123,11 +162,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setRotationY(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getRotationY();
         }
     };
+
     /**
      * View's x property.
      */
@@ -136,11 +177,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setX(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getX();
         }
     };
+
     /**
      * View's y property.
      */
@@ -149,11 +192,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setY(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getY();
         }
     };
+
     /**
      * View's z property.
      */
@@ -162,11 +207,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             ViewCompat.setZ(view, value);
         }
+
         @Override
         public float getValue(View view) {
             return ViewCompat.getZ(view);
         }
     };
+
     /**
      * View's alpha property.
      */
@@ -175,11 +222,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setAlpha(value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getAlpha();
         }
     };
+
     // Properties below are not RenderThread compatible
     /**
      * View's scrollX property.
@@ -189,11 +238,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setScrollX((int) value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getScrollX();
         }
     };
+
     /**
      * View's scrollY property.
      */
@@ -202,11 +253,13 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         public void setValue(View view, float value) {
             view.setScrollY((int) value);
         }
+
         @Override
         public float getValue(View view) {
             return view.getScrollY();
         }
     };
+
     /**
      * The minimum visible change in pixels that can be visible to users.
      */
@@ -223,38 +276,53 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
      * The minimum visible change in scale that can be visible to users.
      */
     public static final float MIN_VISIBLE_CHANGE_SCALE = 1f / 500f;
+
     // Use the max value of float to indicate an unset state.
     private static final float UNSET = Float.MAX_VALUE;
+
     // Multiplier to the min visible change value for value threshold
     private static final float THRESHOLD_MULTIPLIER = 0.75f;
+
     // Internal tracking for velocity.
     float mVelocity = 0;
+
     // Internal tracking for value.
     float mValue = UNSET;
+
     // Tracks whether start value is set. If not, the animation will obtain the value at the time
     // of starting through the getter and use that as the starting value of the animation.
     boolean mStartValueIsSet = false;
+
     // Target to be animated.
     final Object mTarget;
+
     // View property id.
     final FloatPropertyCompat mProperty;
+
     // Package private tracking of animation lifecycle state. Visible to subclass animations.
     boolean mRunning = false;
+
     // Min and max values that defines the range of the animation values.
     float mMaxValue = Float.MAX_VALUE;
     float mMinValue = -mMaxValue;
+
     // Last frame time. Always gets reset to -1  at the end of the animation.
     private long mLastFrameTime = 0;
+
     private float mMinVisibleChange;
+
     // List of end listeners
     private final ArrayList<OnAnimationEndListener> mEndListeners = new ArrayList<>();
+
     // List of update listeners
     private final ArrayList<OnAnimationUpdateListener> mUpdateListeners = new ArrayList<>();
+
     // Internal state for value/velocity pair.
     static class MassState {
         float mValue;
         float mVelocity;
     }
+
     /**
      * Creates a dynamic animation with the given FloatValueHolder instance.
      *
@@ -267,6 +335,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
             public float getValue(Object object) {
                 return floatValueHolder.getValue();
             }
+
             @Override
             public void setValue(Object object, float value) {
                 floatValueHolder.setValue(value);
@@ -274,12 +343,14 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         };
         mMinVisibleChange = MIN_VISIBLE_CHANGE_PIXELS;
     }
+
     /**
      * Creates a dynamic animation to animate the given property for the given {@link View}
      *
      * @param object the Object whose property is to be animated
      * @param property the property to be animated
      */
+
     <K> DynamicAnimation(K object, FloatPropertyCompat<K> property) {
         mTarget = object;
         mProperty = property;
@@ -294,6 +365,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
             mMinVisibleChange = MIN_VISIBLE_CHANGE_PIXELS;
         }
     }
+
     /**
      * Sets the start value of the animation. If start value is not set, the animation will get
      * the current value for the view's property, and use that as the start value.
@@ -306,6 +378,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         mStartValueIsSet = true;
         return (T) this;
     }
+
     /**
      * Start velocity of the animation. Default velocity is 0. Unit: change in property per
      * second (e.g. pixels per second, scale/alpha value change per second).
@@ -328,6 +401,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         mVelocity = startVelocity;
         return (T) this;
     }
+
     /**
      * Sets the max value of the animation. Animations will not animate beyond their max value.
      * Whether or not animation will come to an end when max value is reached is dependent on the
@@ -344,6 +418,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         mMaxValue = max;
         return (T) this;
     }
+
     /**
      * Sets the min value of the animation. Animations will not animate beyond their min value.
      * Whether or not animation will come to an end when min value is reached is dependent on the
@@ -356,6 +431,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         mMinValue = min;
         return (T) this;
     }
+
     /**
      * Adds an end listener to the animation for receiving onAnimationEnd callbacks. If the listener
      * is {@code null} or has already been added to the list of listeners for the animation, no op.
@@ -369,6 +445,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         }
         return (T) this;
     }
+
     /**
      * Removes the end listener from the animation, so as to stop receiving animation end callbacks.
      *
@@ -377,6 +454,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     public void removeEndListener(OnAnimationEndListener listener) {
         removeEntry(mEndListeners, listener);
     }
+
     /**
      * Adds an update listener to the animation for receiving per-frame animation update callbacks.
      * If the listener is {@code null} or has already been added to the list of listeners for the
@@ -401,6 +479,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         }
         return (T) this;
     }
+
     /**
      * Removes the update listener from the animation, so as to stop receiving animation update
      * callbacks.
@@ -410,6 +489,8 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     public void removeUpdateListener(OnAnimationUpdateListener listener) {
         removeEntry(mUpdateListeners, listener);
     }
+
+
     /**
      * This method sets the minimal change of animation value that is visible to users, which helps
      * determine a reasonable threshold for the animation's termination condition. It is critical
@@ -437,7 +518,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
      * @throws IllegalArgumentException if the given threshold is not positive
      */
     public T setMinimumVisibleChange(@FloatRange(from = 0.0, fromInclusive = false)
-                                             float minimumVisibleChange) {
+            float minimumVisibleChange) {
         if (minimumVisibleChange <= 0) {
             throw new IllegalArgumentException("Minimum visible change must be positive.");
         }
@@ -445,6 +526,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         setValueThreshold(minimumVisibleChange * THRESHOLD_MULTIPLIER);
         return (T) this;
     }
+
     /**
      * Returns the minimum change in the animation property that could be visibly different to
      * users.
@@ -454,6 +536,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     public float getMinimumVisibleChange() {
         return mMinVisibleChange;
     }
+
     /**
      * Remove {@code null} entries from the list.
      */
@@ -465,6 +548,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
             }
         }
     }
+
     /**
      * Remove an entry from the list by marking it {@code null} and clean up later.
      */
@@ -474,7 +558,9 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
             list.set(id, null);
         }
     }
+
     /****************Animation Lifecycle Management***************/
+
     /**
      * Starts an animation. If the animation has already been started, no op. Note that calling
      * {@link #start()} will not immediately set the property value to start value of the animation.
@@ -492,6 +578,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
             startAnimationInternal();
         }
     }
+
     /**
      * Cancels the on-going animation. If the animation hasn't started, no op. Note that this method
      * should only be called on main thread.
@@ -506,6 +593,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
             endAnimationInternal(true);
         }
     }
+
     /**
      * Returns whether the animation is currently running.
      *
@@ -514,7 +602,9 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     public boolean isRunning() {
         return mRunning;
     }
+
     /************************** Private APIs below ********************************/
+
     // This gets called when the animation is started, to finish the setup of the animation
     // before the animation pulsing starts.
     private void startAnimationInternal() {
@@ -531,6 +621,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
             AnimationHandler.getInstance().addAnimationFrameCallback(this, 0);
         }
     }
+
     /**
      * This gets call on each frame of the animation. Animation value and velocity are updated
      * in this method based on the new frame time. The property value of the view being animated
@@ -554,12 +645,15 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         // Clamp value & velocity.
         mValue = Math.min(mValue, mMaxValue);
         mValue = Math.max(mValue, mMinValue);
+
         setPropertyValue(mValue);
+
         if (finished) {
             endAnimationInternal(false);
         }
         return finished;
     }
+
     /**
      * Updates the animation state (i.e. value and velocity). This method is package private, so
      * subclasses can override this method to calculate the new value and velocity in their custom
@@ -569,6 +663,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
      * @return whether the animation has finished
      */
     abstract boolean updateValueAndVelocity(long deltaT);
+
     /**
      * Internal method to reset the animation states when animation is finished/canceled.
      */
@@ -584,6 +679,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         }
         removeNullEntries(mEndListeners);
     }
+
     /**
      * Updates the property value through the corresponding setter.
      */
@@ -596,31 +692,37 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         }
         removeNullEntries(mUpdateListeners);
     }
+
     /**
      * Returns the default threshold.
      */
     float getValueThreshold() {
         return mMinVisibleChange * THRESHOLD_MULTIPLIER;
     }
+
     /**
      * Obtain the property value through the corresponding getter.
      */
     private float getPropertyValue() {
         return mProperty.getValue(mTarget);
     }
+
     /****************Sub class animations**************/
     /**
      * Returns the acceleration at the given value with the given velocity.
      **/
     abstract float getAcceleration(float value, float velocity);
+
     /**
      * Returns whether the animation has reached equilibrium.
      */
     abstract boolean isAtEquilibrium(float value, float velocity);
+
     /**
      * Updates the default value threshold for the animation based on the property to be animated.
      */
     abstract void setValueThreshold(float threshold);
+
     /**
      * An animation listener that receives end notifications from an animation.
      */
@@ -637,6 +739,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         void onAnimationEnd(DynamicAnimation animation, boolean canceled, float value,
                             float velocity);
     }
+
     /**
      * Implementors of this interface can add themselves as update listeners
      * to an <code>DynamicAnimation</code> instance to receive callbacks on every animation
@@ -644,6 +747,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
      * <code>DynamicAnimation</code>.
      */
     public interface OnAnimationUpdateListener {
+
         /**
          * Notifies the occurrence of another frame of the animation.
          *

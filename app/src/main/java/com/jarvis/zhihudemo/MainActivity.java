@@ -18,6 +18,7 @@ import com.jarvis.zhihudemo.avtivity.AndroidRDrawable;
 import com.jarvis.zhihudemo.avtivity.AnswerNextTipActivity;
 import com.jarvis.zhihudemo.avtivity.AnswerPagerActivity;
 import com.jarvis.zhihudemo.avtivity.AnswerSkeletionActivity;
+import com.jarvis.zhihudemo.avtivity.ClipViewActivity;
 import com.jarvis.zhihudemo.avtivity.CommentRecyclerActivity;
 import com.jarvis.zhihudemo.avtivity.ConfettiActivity;
 import com.jarvis.zhihudemo.avtivity.CustomLayoutActivity;
@@ -33,17 +34,32 @@ import com.jarvis.zhihudemo.avtivity.HybridActivity;
 import com.jarvis.zhihudemo.avtivity.InnerCardActivity;
 import com.jarvis.zhihudemo.avtivity.MaterialActivity;
 import com.jarvis.zhihudemo.avtivity.NestedScrollActivity;
+import com.jarvis.zhihudemo.avtivity.OverScrollViewActivity;
 import com.jarvis.zhihudemo.avtivity.TextViewActivity;
 import com.jarvis.zhihudemo.avtivity.TipsHeaderRecyclerActivity;
+import com.jarvis.zhihudemo.avtivity.ToolbarActivity;
 import com.jarvis.zhihudemo.avtivity.TopicActivity;
+import com.jarvis.zhihudemo.avtivity.TopicLabelActivity;
+import com.jarvis.zhihudemo.avtivity.ViewModelActivity;
 import com.jarvis.zhihudemo.avtivity.ViewPagerActivity;
 import com.jarvis.zhihudemo.base.BaseActivity;
 import com.jarvis.zhihudemo.view.annotations.ContentView;
 import com.jarvis.zhihudemo.view.annotations.ViewInject;
 import com.jarvis.zhihudemo.view.annotations.ViewInjectUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
+
+    String json = "{\n" +
+            "\"total\":3,\n" +
+            "\"rows\":[abcdefg123,abcdefg456,abcdefg789]" +
+            "}";
 
     @ViewInject(R.id.main_rv)
     private ZhihuRecyclerView recyclerView;
@@ -70,7 +86,12 @@ public class MainActivity extends BaseActivity {
             CommentRecyclerActivity.class,
             FragmentManagerActivity.class,
             TopicActivity.class,
-            AnswerPagerActivity.class
+            AnswerPagerActivity.class,
+            OverScrollViewActivity.class,
+            ViewModelActivity.class,
+            ToolbarActivity.class,
+            ClipViewActivity.class,
+            TopicLabelActivity.class
     };
 
     @Override
@@ -86,6 +107,14 @@ public class MainActivity extends BaseActivity {
         for (Class<? extends BaseActivity> ac : demoClasses) {
             adapter.add(new InnerData(ac));
         }
+
+//        try {
+//            JSONObject object = new JSONObject(json);
+//            JSONArray array = object.getJSONArray("rows");
+//            List<String> ids = array.o
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
     class InnerPresenter extends Presenter {

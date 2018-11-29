@@ -21,6 +21,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.jarvis.zhihudemo.view.hybrid.WebViewS;
+import com.jarvis.zhihudemo.widgets.animation.DynamicAnimation;
+import com.jarvis.zhihudemo.widgets.animation.FlingAnimation;
 
 /**
  * @author yyf @ Zhihu Inc.
@@ -95,10 +97,22 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
 
     private int mDeltaY = 0;
 
+    public DynamicAnimation.ViewProperty INTER_TRANSLATION_Y = new DynamicAnimation.ViewProperty("translationY") {
+        @Override
+        public void setValue(View view, float value) {
+            view.setTranslationY(value);
+        }
+
+        @Override
+        public float getValue(View view) {
+            return view.getTranslationY();
+        }
+    };
+
     private WebViewS.OverScrolled overScrolled = new WebViewS.OverScrolled() {
         @Override
         public void onFling(float velocityY) {
-
+            FlingAnimation flingAnimation = new FlingAnimation(InterceptFrameLayout.this, INTER_TRANSLATION_Y);
         }
 
         @Override
@@ -333,6 +347,7 @@ public class InterceptFrameLayout extends FrameLayout implements NestedScrolling
                 setSheetTranslation(newSheetTranslation);
 
                 if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    isHoldTouch = true;
                     getParent().requestDisallowInterceptTouchEvent(false);
                     velocityTracker.computeCurrentVelocity(1000);
                     float velocityY = velocityTracker.getYVelocity();

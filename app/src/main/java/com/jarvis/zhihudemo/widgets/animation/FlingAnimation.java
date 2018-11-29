@@ -1,13 +1,47 @@
-package com.jarvis.zhihudemo.widgets;
+/*
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.jarvis.zhihudemo.widgets.animation;
 
 import android.support.annotation.FloatRange;
 
 /**
- * @author yyf @ Zhihu Inc.
- * @since 07-03-2018
+ * <p>Fling animation is an animation that continues an initial momentum (most often from gesture
+ * velocity) and gradually slows down. The fling animation will come to a stop when the velocity of
+ * the animation is below the threshold derived from {@link #setMinimumVisibleChange(float)},
+ * or when the value of the animation has gone beyond the min or max value defined via
+ * {@link DynamicAnimation#setMinValue(float)} or {@link DynamicAnimation#setMaxValue(float)}.
+ * It is recommended to restrict the fling animation with min and/or max value, such that the
+ * animation can end when it goes beyond screen bounds, thus preserving CPU cycles and resources.
+ *
+ * <p>For example, you can create a fling animation that animates the translationX of a view:
+ * <pre class="prettyprint">
+ * FlingAnimation flingAnim = new FlingAnimation(view, DynamicAnimation.TRANSLATION_X)
+ *         // Sets the start velocity to -2000 (pixel/s)
+ *         .setStartVelocity(-2000)
+ *         // Optional but recommended to set a reasonable min and max range for the animation.
+ *         // In this particular case, we set the min and max to -200 and 2000 respectively.
+ *         .setMinValue(-200).setMaxValue(2000);
+ * flingAnim.start();
+ * </pre>
  */
 public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
+
     private final DragForce mFlingForce = new DragForce();
+
     /**
      * <p>This creates a FlingAnimation that animates a {@link FloatValueHolder} instance. During
      * the animation, the {@link FloatValueHolder} instance will be updated via
@@ -24,6 +58,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
         super(floatValueHolder);
         mFlingForce.setValueThreshold(getValueThreshold());
     }
+
     /**
      * This creates a FlingAnimation that animates the property of the given object.
      *
@@ -35,6 +70,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
         super(object, property);
         mFlingForce.setValueThreshold(getValueThreshold());
     }
+
     /**
      * Sets the friction for the fling animation. The greater the friction is, the sooner the
      * animation will slow down. When not set, the friction defaults to 1.
@@ -51,6 +87,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
         mFlingForce.setFrictionScalar(friction);
         return this;
     }
+
     /**
      * Returns the friction being set on the animation via {@link #setFriction(float)}. If the
      * friction has not been set, the default friction of 1 will be returned.
@@ -60,6 +97,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
     public float getFriction() {
         return mFlingForce.getFrictionScalar();
     }
+
     /**
      * Sets the min value of the animation. When a fling animation reaches the min value, the
      * animation will end immediately. Animations will not animate beyond the min value.
@@ -72,6 +110,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
         super.setMinValue(minValue);
         return this;
     }
+
     /**
      * Sets the max value of the animation. When a fling animation reaches the max value, the
      * animation will end immediately. Animations will not animate beyond the max value.
@@ -84,6 +123,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
         super.setMaxValue(maxValue);
         return this;
     }
+
     /**
      * Start velocity of the animation. Default velocity is 0. Unit: pixel/second
      *
@@ -110,11 +150,14 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
         super.setStartVelocity(startVelocity);
         return this;
     }
+
     @Override
     boolean updateValueAndVelocity(long deltaT) {
+
         MassState state = mFlingForce.updateValueAndVelocity(mValue, mVelocity, deltaT);
         mValue = state.mValue;
         mVelocity = state.mVelocity;
+
         // When the animation hits the max/min value, consider animation done.
         if (mValue < mMinValue) {
             mValue = mMinValue;
@@ -124,41 +167,52 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
             mValue = mMaxValue;
             return true;
         }
+
         if (isAtEquilibrium(mValue, mVelocity)) {
             return true;
         }
         return false;
     }
+
     @Override
     float getAcceleration(float value, float velocity) {
         return mFlingForce.getAcceleration(value, velocity);
     }
+
     @Override
     boolean isAtEquilibrium(float value, float velocity) {
         return value >= mMaxValue
                 || value <= mMinValue
                 || mFlingForce.isAtEquilibrium(value, velocity);
     }
+
     @Override
     void setValueThreshold(float threshold) {
         mFlingForce.setValueThreshold(threshold);
     }
+
     private static final class DragForce implements Force {
+
         private static final float DEFAULT_FRICTION = -4.2f;
+
         // This multiplier is used to calculate the velocity threshold given a certain value
         // threshold. The idea is that if it takes >= 1 frame to move the value threshold amount,
         // then the velocity is a reasonable threshold.
         private static final float VELOCITY_THRESHOLD_MULTIPLIER = 1000f / 16f;
         private float mFriction = DEFAULT_FRICTION;
         private float mVelocityThreshold;
+
         // Internal state to hold a value/velocity pair.
         private final DynamicAnimation.MassState mMassState = new DynamicAnimation.MassState();
+
         void setFrictionScalar(float frictionScalar) {
             mFriction = frictionScalar * DEFAULT_FRICTION;
         }
+
         float getFrictionScalar() {
             return mFriction / DEFAULT_FRICTION;
         }
+
         MassState updateValueAndVelocity(float value, float velocity, long deltaT) {
             mMassState.mVelocity = (float) (velocity * Math.exp((deltaT / 1000f) * mFriction));
             mMassState.mValue = (float) (value - velocity / mFriction
@@ -168,17 +222,20 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
             }
             return mMassState;
         }
+
         @Override
         public float getAcceleration(float position, float velocity) {
             return velocity * mFriction;
         }
+
         @Override
         public boolean isAtEquilibrium(float value, float velocity) {
             return Math.abs(velocity) < mVelocityThreshold;
         }
+
         void setValueThreshold(float threshold) {
             mVelocityThreshold = threshold * VELOCITY_THRESHOLD_MULTIPLIER;
         }
     }
-}
 
+}

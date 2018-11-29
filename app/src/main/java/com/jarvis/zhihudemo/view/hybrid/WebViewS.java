@@ -100,6 +100,7 @@ public class WebViewS extends WebView implements NestedScrollingChild {
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
         mGestureDetector = new GestureDetector(getContext(), sogl);
+        this.setOverScrollMode(OVER_SCROLL_ALWAYS);
     }
 
     GestureDetector.SimpleOnGestureListener sogl = new GestureDetector.SimpleOnGestureListener() {
@@ -305,6 +306,21 @@ public class WebViewS extends WebView implements NestedScrollingChild {
         mListener = listener;
     }
     private int mPrevScrollY;
+
+    @Override
+    public int computeVerticalScrollRange() {
+        return super.computeVerticalScrollRange();
+    }
+
+    @Override
+    public int computeVerticalScrollOffset() {
+        return super.computeVerticalScrollOffset();
+    }
+
+    @Override
+    public int computeVerticalScrollExtent() {
+        return super.computeVerticalScrollExtent();
+    }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {

@@ -37,6 +37,16 @@ public class ExplosionUtils {
         return Math.round(dp * DENSITY);
     }
 
+    public static int dpToPixel(final Context pContext, final float pDp) {
+        if (pContext == null) {
+            return 0;
+        }
+
+        final float density = pContext.getResources().getDisplayMetrics().density;
+
+        return (int) ((pDp * density) + 0.5f);
+    }
+
     public static Bitmap createBitmapFromView(View view) {
         if (view instanceof ImageView) {
             Drawable drawable = ((ImageView) view).getDrawable();

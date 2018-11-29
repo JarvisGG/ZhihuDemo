@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_normal"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="36dp"
+        android:background="@color/BK09">
+
+        <com.jarvis.zhihudemo.widgets.ToolBarContainerView
+            android:id="@+id/toolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical"/>
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_normal_s"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="130dp"
+        android:background="@color/BK09">
+
+        <com.jarvis.zhihudemo.widgets.ToolBarContainerView
+            android:id="@+id/toolbar_container_s"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="Excute!"
+        android:layout_gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true" />
+
+    <Button
+        android:id="@+id/btn_s"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="180dp"
+        android:text="Excute_s!"
+        android:layout_gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true" />
+
+
+
+</FrameLayout>
