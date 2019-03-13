@@ -5,11 +5,20 @@ import android.database.Observable;
 import android.support.v4.os.TraceCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.OverScroller;
+import android.widget.Scroller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_MOVE;
+import static android.view.MotionEvent.ACTION_UP;
 
 /**
  * @author yyf @ Zhihu Inc.
@@ -21,20 +30,48 @@ public class TopicLabelLayout extends ViewGroup {
 
     private AdapterDataObserver mAdapterDataObserver;
 
+    private OverScroller mScroller;
+
+    private VelocityTracker mVelocityTracker;
+
+    private ViewConfiguration mConfiguration;
+
+    private int mTouchSlop;
+
+    private float mDownY;
+
+    private float mMoveY;
+
+    private float mLastMoveY;
+
+    private int topBorder;
+
+    private int bottomtBorder;
+
+
     private List<Integer> mLineHeight = new ArrayList<>();
     private List<Integer> mLineWidth = new ArrayList<>();
     private List<Integer> mLineCount = new ArrayList<>();
 
     public TopicLabelLayout(Context context) {
         super(context);
+        init();
     }
 
     public TopicLabelLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public TopicLabelLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
+        mScroller = new OverScroller(getContext());
+        mConfiguration = ViewConfiguration.get(getContext());
+        mTouchSlop = mConfiguration.getScaledPagingTouchSlop();
     }
 
     @Override
@@ -150,6 +187,58 @@ public class TopicLabelLayout extends ViewGroup {
                 i--;
             }
         }
+
+        topBorder = getTop();
+        bottomtBorder = getTop() + getMeasuredHeight();
+    }
+
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
+        if (mScroller.computeScrollOffset()) {
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            invalidate();
+        }
+        super.computeScroll();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case ACTION_DOWN:
+                mDownY = event.getRawY();
+                mLastMoveY = mDownY;
+                if (!mScroller.isFinished()) {
+                    mScroller.abortAnimation();
+                }
+                break;
+            case ACTION_MOVE:
+                mMoveY = event.getRawY();
+                int offsetY= (int) (mLastMoveY - mMoveY);
+                if (getScrollY() + offsetY < topBorder) {
+                    scrollTo(0, topBorder);
+                    return true;
+                } else if (getScrollY() + getMeasuredHeight() + offsetY> bottomtBorder) {
+                    scrollTo(0, bottomtBorder - getMeasuredHeight());
+                    return true;
+                }
+                scrollBy(0, offsetY);
+                mLastMoveY = mMoveY;
+                break;
+            case ACTION_UP:
+                mMoveY = event.getRawY();
+                mVelocityTracker.computeCurrentVelocity(1000);
+                int yVelocity = (int) mVelocityTracker.getYVelocity();
+                if (Math.abs(yVelocity) > mConfiguration.getScaledMinimumFlingVelocity()) {
+                    mScroller.fling(getScrollY(), 0, 0, -yVelocity, 0, 0, topBorder, bottomtBorder - getMeasuredHeight());
+                    invalidate();
+                }
+                break;
+            default:
+                break;
+
+        }
+        return super.onTouchEvent(event);
     }
 
     public void setAdapterInternal(Adapter adapter) {

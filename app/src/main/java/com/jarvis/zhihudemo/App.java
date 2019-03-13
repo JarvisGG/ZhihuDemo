@@ -18,4 +18,10 @@ public class App extends Application {
     public WindowManager.LayoutParams getMywmParams(){
         return wmParams;
     }
+
+    public static App INSTANCE;
+
+    {
+        INSTANCE = this;
+    }
 }

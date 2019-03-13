@@ -18,11 +18,13 @@ import com.jarvis.zhihudemo.avtivity.AndroidRDrawable;
 import com.jarvis.zhihudemo.avtivity.AnswerNextTipActivity;
 import com.jarvis.zhihudemo.avtivity.AnswerPagerActivity;
 import com.jarvis.zhihudemo.avtivity.AnswerSkeletionActivity;
+import com.jarvis.zhihudemo.avtivity.BottomSheetActivity;
 import com.jarvis.zhihudemo.avtivity.ClipViewActivity;
 import com.jarvis.zhihudemo.avtivity.CommentRecyclerActivity;
 import com.jarvis.zhihudemo.avtivity.ConfettiActivity;
 import com.jarvis.zhihudemo.avtivity.CustomLayoutActivity;
 import com.jarvis.zhihudemo.avtivity.CustomLayoutMangerActivity;
+import com.jarvis.zhihudemo.avtivity.EditTextActivity;
 import com.jarvis.zhihudemo.avtivity.FloatDragViewActivity;
 import com.jarvis.zhihudemo.avtivity.FloatViewActivity;
 import com.jarvis.zhihudemo.avtivity.FragmentManagerActivity;
@@ -35,6 +37,8 @@ import com.jarvis.zhihudemo.avtivity.InnerCardActivity;
 import com.jarvis.zhihudemo.avtivity.MaterialActivity;
 import com.jarvis.zhihudemo.avtivity.NestedScrollActivity;
 import com.jarvis.zhihudemo.avtivity.OverScrollViewActivity;
+import com.jarvis.zhihudemo.avtivity.PanelActivity;
+import com.jarvis.zhihudemo.avtivity.ShareElementActivity;
 import com.jarvis.zhihudemo.avtivity.TextViewActivity;
 import com.jarvis.zhihudemo.avtivity.TipsHeaderRecyclerActivity;
 import com.jarvis.zhihudemo.avtivity.ToolbarActivity;
@@ -46,12 +50,6 @@ import com.jarvis.zhihudemo.base.BaseActivity;
 import com.jarvis.zhihudemo.view.annotations.ContentView;
 import com.jarvis.zhihudemo.view.annotations.ViewInject;
 import com.jarvis.zhihudemo.view.annotations.ViewInjectUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.List;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
@@ -91,7 +89,11 @@ public class MainActivity extends BaseActivity {
             ViewModelActivity.class,
             ToolbarActivity.class,
             ClipViewActivity.class,
-            TopicLabelActivity.class
+            TopicLabelActivity.class,
+            EditTextActivity.class,
+            PanelActivity.class,
+            BottomSheetActivity.class,
+            ShareElementActivity.class
     };
 
     @Override
@@ -107,14 +109,6 @@ public class MainActivity extends BaseActivity {
         for (Class<? extends BaseActivity> ac : demoClasses) {
             adapter.add(new InnerData(ac));
         }
-
-//        try {
-//            JSONObject object = new JSONObject(json);
-//            JSONArray array = object.getJSONArray("rows");
-//            List<String> ids = array.o
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
     }
 
     class InnerPresenter extends Presenter {

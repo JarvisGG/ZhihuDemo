@@ -72,6 +72,10 @@ dependencies {
     compile 'com.github.jinatonic.confetti:confetti:1.1.1'
     implementation 'com.ethanhua:skeleton:1.0.1'
     implementation 'io.supercharge:shimmerlayout:1.0.2'
+
+    implementation 'com.shundaojia:rxcommand:1.2.2'
+    implementation 'com.shundaojia:live:1.0.2'
+
 }
 
 final def log = project.logger
