@@ -39,6 +39,15 @@ public class NumberView extends View {
 
     private Rect textBounds = new Rect();
 
+
+
+
+    private float origin = 1;
+    private float middle = 1;
+
+
+
+
     public NumberView(Context context) {
         super(context);
         init();
@@ -119,6 +128,12 @@ public class NumberView extends View {
         if (isHidenStartZero && current == 0) {
             return;
         }
+
+        float alphaRage = origin - middle;
+        if (alphaRage != 0) {
+            paint.setAlpha((int) (Math.abs(alphaRage - 2 * stepPersent) * 255));
+        }
+
         canvas.drawText(String.valueOf(current), textCenterX, textCenterY - (stepPersent * getMeasuredHeight()), paint);
     }
 
@@ -126,6 +141,12 @@ public class NumberView extends View {
         if (isHidenEndZero && next == 0) {
             return;
         }
+
+        float alphaRage = origin - middle;
+        if (alphaRage != 0) {
+            paint.setAlpha((int) (Math.abs(alphaRage - 2 * stepPersent) * 255));
+        }
+
         canvas.drawText(String.valueOf(next), textCenterX, textCenterY + ((1 - stepPersent) * getMeasuredHeight()), paint);
     }
 
@@ -148,5 +169,10 @@ public class NumberView extends View {
         result = mode == MeasureSpec.AT_MOST ? Math.min(result, val) : result;
         return model == 1 ? result + getPaddingTop() + getPaddingBottom() + DisplayUtils.dpToPixel(getContext(), 4) :
                 result + getPaddingLeft() + getPaddingRight() + DisplayUtils.dpToPixel(getContext(), 2);
+    }
+
+    public void setAlphaRange(float origin, float middle) {
+        this.origin = origin;
+        this.middle = middle;
     }
 }

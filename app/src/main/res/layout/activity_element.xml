@@ -11,15 +11,78 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="128dp"
+        android:layout_marginTop="8dp">
+
+        <EditText
+            android:id="@+id/beginAlpha"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="20dp"
+            android:text="1"
+            android:hint="beginAlpha"/>
+
+        <EditText
+            android:id="@+id/middleAlpha"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="0"
+            android:hint="middleAlpha"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="68dp"
+        android:layout_marginTop="8dp">
+
+        <EditText
+            android:id="@+id/duration"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="20dp"
+            android:text="1000"
+            android:hint="time"/>
+
+        <EditText
+            android:id="@+id/delay"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="200"
+            android:hint="delay"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp">
+
     <Button
-        android:id="@+id/button"
+        android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginEnd="20dp"
         android:background="?android:attr/selectableItemBackground"
-        android:text="EXCUTE!" />
+        android:text="start!" />
+
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="reset!" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/container"

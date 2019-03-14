@@ -20,6 +20,10 @@ public class NumberCountView extends LinearLayout {
 
     private List<NumberView> numberViews = new ArrayList<>();
 
+    private int duration;
+
+    private int delay;
+
     public NumberCountView(Context context) {
         super(context);
         init();
@@ -45,6 +49,11 @@ public class NumberCountView extends LinearLayout {
 
     public void setNumber(int current, int target) {
         processor(String.valueOf(current), String.valueOf(target));
+    }
+
+    public void setInfo(int duration, int delay) {
+        this.duration = duration;
+        this.delay = delay;
     }
 
     private void processor(String current, String target) {
@@ -101,20 +110,46 @@ public class NumberCountView extends LinearLayout {
     }
 
     public void start() {
-        ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
-        animator.setDuration(1000);
-        animator.addUpdateListener(animation -> {
-                    float persent = (float) animation.getAnimatedValue();
-                    for (NumberView numberView : numberViews) {
-                        numberView.notifyPersent(persent);
-                    }
-                });
-        animator.start();
+        int j = 0;
+        for (int i = numberViews.size() - 1; i >= 0; i--) {
+            NumberView numberView = numberViews.get(i);
+            ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
+            animator.setDuration(duration);
+            animator.addUpdateListener(animation -> {
+                float persent = (float) animation.getAnimatedValue();
+                numberView.notifyPersent(persent);
+            });
+            animator.setStartDelay(j * delay);
+            animator.start();
+            j++;
+        }
+
+//        ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
+//        animator.setDuration(1000);
+//        animator.addUpdateListener(animation -> {
+//                    float persent = (float) animation.getAnimatedValue();
+//                    for (NumberView numberView : numberViews) {
+//                        numberView.notifyPersent(persent);
+//                    }
+//                });
+//        animator.start();
 //        for (NumberView numberView : numberViews) {
 //            numberView.notifyPersent(1);
 //        }
 
     }
 
+    public void reset() {
+        for (int i = numberViews.size() - 1; i >= 0; i--) {
+            NumberView numberView = numberViews.get(i);
+            numberView.notifyPersent(0);
+        }
+    }
 
+    public void setAlphaRange(float origin, float middle) {
+        for (int i = numberViews.size() - 1; i >= 0; i--) {
+            NumberView numberView = numberViews.get(i);
+            numberView.setAlphaRange(origin, middle);
+        }
+    }
 }

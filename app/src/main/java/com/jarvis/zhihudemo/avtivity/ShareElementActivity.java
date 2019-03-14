@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.jarvis.zhihudemo.R;
 import com.jarvis.zhihudemo.base.BaseActivity;
@@ -20,8 +21,24 @@ import com.jarvis.zhihudemo.view1.NumberCountView;
 @ContentView(R.layout.activity_element)
 public class ShareElementActivity extends BaseActivity {
 
-    @ViewInject(R.id.button)
-    Button excute;
+    @ViewInject(R.id.start)
+    Button start;
+
+    @ViewInject(R.id.reset)
+    Button reset;
+
+    @ViewInject(R.id.duration)
+    EditText duration;
+
+    @ViewInject(R.id.delay)
+    EditText delay;
+
+    @ViewInject(R.id.beginAlpha)
+    EditText beginAlpha;
+
+    @ViewInject(R.id.middleAlpha)
+    EditText middleAlpha;
+
 
     @ViewInject(R.id.number)
     NumberCountView countView;
@@ -33,10 +50,13 @@ public class ShareElementActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ViewInjectUtils.inject(this);
 
-        countView.setNumber(723, 7146);
+        countView.setNumber(124729, 127146);
+        countView.setInfo(Integer.valueOf(duration.getText().toString()), Integer.valueOf(delay.getText().toString()));
 
-        excute.setOnClickListener(v -> {
+        start.setOnClickListener(v -> {
 
+            countView.setAlphaRange(Integer.valueOf(beginAlpha.getText().toString()), Integer.valueOf(middleAlpha.getText().toString()));
+            countView.setInfo(Integer.valueOf(duration.getText().toString()), Integer.valueOf(delay.getText().toString()));
             countView.start();
 
 //            fragmentManager = getSupportFragmentManager();
@@ -47,6 +67,10 @@ public class ShareElementActivity extends BaseActivity {
 //                    .add(R.id.container, fragment1, "")
 //                    .addToBackStack("")
 //                    .commit();
+        });
+
+        reset.setOnClickListener(v -> {
+            countView.reset();
         });
     }
 
