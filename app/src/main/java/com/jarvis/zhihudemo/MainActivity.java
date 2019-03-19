@@ -36,6 +36,7 @@ import com.jarvis.zhihudemo.avtivity.HybridActivity;
 import com.jarvis.zhihudemo.avtivity.InnerCardActivity;
 import com.jarvis.zhihudemo.avtivity.MaterialActivity;
 import com.jarvis.zhihudemo.avtivity.NestedScrollActivity;
+import com.jarvis.zhihudemo.avtivity.NumberCountActivity;
 import com.jarvis.zhihudemo.avtivity.OverScrollViewActivity;
 import com.jarvis.zhihudemo.avtivity.PanelActivity;
 import com.jarvis.zhihudemo.avtivity.ShareElementActivity;
@@ -93,6 +94,7 @@ public class MainActivity extends BaseActivity {
             EditTextActivity.class,
             PanelActivity.class,
             BottomSheetActivity.class,
+            NumberCountActivity.class,
             ShareElementActivity.class
     };
 

@@ -54,6 +54,7 @@
         <activity android:name=".avtivity.PanelActivity" />
         <activity android:name=".avtivity.BottomSheetActivity" />
         <activity android:name=".avtivity.ShareElementActivity" />
+        <activity android:name=".avtivity.NumberCountActivity" />
     </application>
 
 </manifest>

@@ -76,6 +76,8 @@ dependencies {
     implementation 'com.shundaojia:rxcommand:1.2.2'
     implementation 'com.shundaojia:live:1.0.2'
 
+//    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha02'
+
 }
 
 final def log = project.logger
