@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,7 +62,7 @@ public class BottomSheetActivity extends BaseActivity {
             rootView.setDrawingCacheEnabled(false);
             rootView.setImageBitmap(BlurUtils.$
                     .bitmap(bitmap)
-                    .radius(10)
+                    .radius(20)
                     .blur());
 
             mNestedTouchScrollingLayout.expand();
@@ -136,7 +137,7 @@ public class BottomSheetActivity extends BaseActivity {
 
             @Override
             public void onFingerUp(float velocityY) {
-                mIndicatorLineView.updateVelocity(velocityY);
+                mIndicatorLineView.updateVelocity(1700);
             }
 
             @Override

@@ -124,54 +124,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 }
             }
 
-//
-//                if (leftOffset + getDecoratedMeasurementHorizontal(child) <= getHorizontalSpace()) {
-//                    layoutDecoratedWithMargins(child,
-//                            leftOffset,
-//                            topOffset,
-//                            leftOffset + getDecoratedMeasurementHorizontal(child),
-//                            topOffset+getDecoratedMeasurementVertical(child));
-//
-//                    Rect rect = new Rect(leftOffset,
-//                            topOffset + mVerticalOffset,
-//                            leftOffset + getDecoratedMeasurementHorizontal(child),
-//                            topOffset + mVerticalOffset + getDecoratedMeasurementVertical(child));
-//                    mItemRects.put(i, rect);
-//                    leftOffset += getDecoratedMeasurementHorizontal(child);
-//                    lineMaxHeight = Math.max(lineMaxHeight, getDecoratedMeasurementVertical(child));
-//                } else {
-//                    leftOffset = getPaddingLeft();
-//                    topOffset += lineMaxHeight;
-//                    lineMaxHeight = 0;
-//                    if (topOffset - dy > getHeight() - getPaddingBottom()) {
-//                        removeAndRecycleView(child, recycler);
-//                        mLastVisiPos = i - 1;
-//                    } else {
-//                        layoutDecoratedWithMargins(child,
-//                                leftOffset,
-//                                topOffset,
-//                                leftOffset + getDecoratedMeasurementHorizontal(child),
-//                                topOffset + getDecoratedMeasurementVertical(child));
-//
-//                        Rect rect = new Rect(
-//                                leftOffset,
-//                                topOffset + mVerticalOffset,
-//                                leftOffset + getDecoratedMeasurementHorizontal(child),
-//                                topOffset + getDecoratedMeasurementVertical(child) + mVerticalOffset);
-//                        mItemRects.put(i, rect);
-//
-//                        leftOffset += getDecoratedMeasurementHorizontal(child);
-//                        lineMaxHeight = Math.max(lineMaxHeight, getDecoratedMeasurementVertical(child));
-//                    }
-//                }
-//            }
-//            View lastChild = getChildAt(getChildCount() - 1);
-//            if (getPosition(lastChild) == getItemCount() - 1) {
-//                int gap = getHeight() - getPaddingBottom() - getDecoratedBottom(lastChild);
-//                if (gap > 0) {
-//                    dy -= gap;
-//                }
-//            }
         } else {
             int maxPos = getItemCount() - 1;
             mFirstVisiPos = 0;

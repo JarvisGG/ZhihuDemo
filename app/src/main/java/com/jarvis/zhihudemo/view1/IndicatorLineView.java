@@ -51,9 +51,9 @@ public class IndicatorLineView extends View {
         mPaint.setAlpha(255);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(DisplayUtils.dpToPixel(getContext(), 5));
+        mPaint.setStrokeWidth(DisplayUtils.dpToPixel(getContext(), 4));
         mPaint.setAntiAlias(true);
-        mPaint.setPathEffect(new CornerPathEffect(DisplayUtils.dpToPixel(getContext(), 5)));
+        mPaint.setPathEffect(new CornerPathEffect(DisplayUtils.dpToPixel(getContext(), 4)));
 
         mPath = new Path();
         updatePath(0);
@@ -66,7 +66,7 @@ public class IndicatorLineView extends View {
         int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
         int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
         int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
-        int width = DisplayUtils.dpToPixel(getContext(), 64);
+        int width = DisplayUtils.dpToPixel(getContext(), 54);
         int height = DisplayUtils.dpToPixel(getContext(), 24);
         setMeasuredDimension(
                 (modeWidth == MeasureSpec.EXACTLY) ? sizeWidth : width,
@@ -85,8 +85,8 @@ public class IndicatorLineView extends View {
         }
         velocityY = velocityY > 3500 ? 3500 : (velocityY < -3500 ? -3500 : velocityY);
         mPath.moveTo(DisplayUtils.dpToPixel(getContext(), 10), DisplayUtils.dpToPixel(getContext(), 12));
-        mPath.lineTo(DisplayUtils.dpToPixel(getContext(), 32),  DisplayUtils.dpToPixel(getContext(), 12 + (velocityY / 3500) * 12));
-        mPath.lineTo(DisplayUtils.dpToPixel(getContext(), 54), DisplayUtils.dpToPixel(getContext(), 12));
+        mPath.lineTo(DisplayUtils.dpToPixel(getContext(), 27),  DisplayUtils.dpToPixel(getContext(), 12 + (velocityY / 3500) * 12));
+        mPath.lineTo(DisplayUtils.dpToPixel(getContext(), 44), DisplayUtils.dpToPixel(getContext(), 12));
     }
 
     public void updateVelocity(float velocityY) {

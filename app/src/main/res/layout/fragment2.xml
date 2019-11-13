@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#ffff00">
+    android:background="@color/BL01">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        android:transitionName="recyclerview"
         tools:listitem="@layout/item_fragment2" />
 
 </FrameLayout>

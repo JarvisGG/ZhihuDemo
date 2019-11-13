@@ -64,7 +64,7 @@ public class Fragment2 extends Fragment {
 
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+                holder.itemView.setTransitionName("recyclerview_" + position);
             }
 
             @Override

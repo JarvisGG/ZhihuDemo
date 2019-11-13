@@ -13,16 +13,17 @@ import com.jarvis.library.widget.ArrayObjectAdapter;
 import com.jarvis.library.widget.Presenter;
 import com.jarvis.library.widget.SinglePresenterSelector;
 import com.jarvis.library.widget.ZhihuRecyclerView;
-import com.jarvis.plugin.annotation.SingleClick;
 import com.jarvis.zhihudemo.avtivity.AndroidRDrawable;
 import com.jarvis.zhihudemo.avtivity.AnswerNextTipActivity;
 import com.jarvis.zhihudemo.avtivity.AnswerPagerActivity;
 import com.jarvis.zhihudemo.avtivity.AnswerSkeletionActivity;
 import com.jarvis.zhihudemo.avtivity.BottomSheetActivity;
+import com.jarvis.zhihudemo.avtivity.ButtonActivity;
 import com.jarvis.zhihudemo.avtivity.ClipViewActivity;
 import com.jarvis.zhihudemo.avtivity.CommentRecyclerActivity;
 import com.jarvis.zhihudemo.avtivity.ConfettiActivity;
 import com.jarvis.zhihudemo.avtivity.CustomLayoutActivity;
+import com.jarvis.zhihudemo.avtivity.CustomLayoutManager2Activity;
 import com.jarvis.zhihudemo.avtivity.CustomLayoutMangerActivity;
 import com.jarvis.zhihudemo.avtivity.EditTextActivity;
 import com.jarvis.zhihudemo.avtivity.FloatDragViewActivity;
@@ -95,7 +96,9 @@ public class MainActivity extends BaseActivity {
             PanelActivity.class,
             BottomSheetActivity.class,
             NumberCountActivity.class,
-            ShareElementActivity.class
+            ShareElementActivity.class,
+            ButtonActivity.class,
+            CustomLayoutManager2Activity.class
     };
 
     @Override

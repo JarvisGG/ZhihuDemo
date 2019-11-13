@@ -3,6 +3,7 @@ package com.jarvis.zhihudemo.fragment.test;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,8 @@ public class Fragment1 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         getView().setOnClickListener(v -> {});
 
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
         inflater = LayoutInflater.from(getContext());
 
         recyclerView = view.findViewById(R.id.recycler);
@@ -51,7 +54,8 @@ public class Fragment1 extends Fragment {
 
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+                holder.itemView.setTransitionName(position+"");
+                transaction.addSharedElement(holder.itemView, "recyclerview_" + position);
             }
 
             @Override
@@ -61,21 +65,12 @@ public class Fragment1 extends Fragment {
         });
 
 
-
         Fragment2 fragment2 = Fragment2.newInstance();
-
         fragment2.setSharedElementEnterTransition(new DetailsTransition());
-        fragment2.setEnterTransition(new Fade());
-        setExitTransition(new Fade());
         fragment2.setSharedElementReturnTransition(new DetailsTransition());
 
-        ViewCompat.setTransitionName(recyclerView, "1");
-
         view.findViewById(R.id.btn).setOnClickListener(v -> {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .addSharedElement(recyclerView, "recyclerview")
-                    .replace(R.id.container, fragment2)
+            transaction.replace(R.id.container, fragment2)
                     .addToBackStack(null)
                     .commit();
         });

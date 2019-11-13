@@ -42,12 +42,6 @@ public class ClipViewActivity extends BaseActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                    Rect originRect = new Rect();
-//                    targetView.getClipBounds(originRect);
-//                    int centerX = (originRect.right - originRect.left) / 2;
-//                    int centerY = (originRect.bottom - originRect.top) / 2;
-//                    Rect tmp = new Rect(centerX - 150, centerY - 150, centerX + 150, centerY + 150);
-//                    targetView.setClipBounds(tmp);
                 provider.px = progress * targetView.getMeasuredHeight() / 200;
                 targetView.invalidateOutline();
             }
@@ -76,7 +70,7 @@ public class ClipViewActivity extends BaseActivity {
             view.getGlobalVisibleRect(rect);
             int leftMargin = 0;
             int topMargin = 0;
-            Rect selfRect = new Rect(leftMargin, topMargin, rect.right - rect.left - leftMargin, rect.bottom - rect.top - topMargin);
+            Rect selfRect = new Rect(leftMargin, topMargin, rect.right - rect.left - leftMargin, rect.bottom - rect.top - topMargin + px);
             outline.setRoundRect(selfRect, px);
         }
     }
