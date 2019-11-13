@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.jarvis.zhihudemo.R
 import com.jarvis.zhihudemo.base.BaseActivity
+import com.jarvis.zhihudemo.widgets.layoutmanager.PanelCardLayoutManager
 import com.jarvis.zhihudemo.widgets.layoutmanager.StackLayoutManager
 
 /**
@@ -31,7 +32,8 @@ class CustomLayoutManager2Activity : BaseActivity() {
         recyclerView = findViewById(R.id.rv)
         recyclerView.run {
             adapter = Adapter(horRes)
-            layoutManager = StackLayoutManager()
+//            layoutManager = StackLayoutManager()
+            layoutManager = PanelCardLayoutManager()
         }
     }
 
@@ -41,13 +43,6 @@ class CustomLayoutManager2Activity : BaseActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
-            val p = view.layoutParams as ViewGroup.MarginLayoutParams
-            p.topMargin = dp2px(view.context, 25f).toInt()
-            p.bottomMargin = dp2px(view.context, 25f).toInt()
-            p.leftMargin = dp2px(view.context, 5f).toInt()
-            p.rightMargin = dp2px(view.context, 5f).toInt()
-            p.width = dp2px(view.context, 100f).toInt()
-            p.height = dp2px(view.context, 150f).toInt()
             return ViewHolder(view)
         }
 
