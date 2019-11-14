@@ -3,6 +3,11 @@ package com.jarvis.zhihudemo.widgets.layoutmanager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import java.util.ArrayList
+import kotlin.math.floor
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.pow
 
 /**
  * @author yyf
@@ -16,99 +21,128 @@ class PanelCardLayoutManager : RecyclerView.LayoutManager() {
     }
 
 
-    private var verticalOffset: Long = 0
 
     private var normalMarginTop = 0f
 
-    private var firstVisibleIndex: Int = 0
 
-    private var lastVisibleIndex: Int = 0
+    private var childWidth = -1
 
-    private var childHeight: Int = -1
+    private var childHeight = -1
+
+    private var verticalOffset = Integer.MAX_VALUE
 
 
+    private var mScale = 0.95f
 
-
-    private val scaleStep = 0.1f
-
-    private val stackLengthStep = 20
-
-    private val stackCount = 4
-
+    private var mTranslateY = 0.9f
 
 
     init {
         isAutoMeasureEnabled = true
     }
 
-    override fun generateDefaultLayoutParams() = RecyclerView.LayoutParams(
-            RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+    override fun generateDefaultLayoutParams() : RecyclerView.LayoutParams {
+        val params = RecyclerView.LayoutParams(
+                RecyclerView.LayoutParams.WRAP_CONTENT,
+                RecyclerView.LayoutParams.WRAP_CONTENT)
+        return params
+    }
+
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
-        if (state.itemCount == 0) {
-            removeAndRecycleAllViews(recycler)
+        if (state.itemCount == 0 || state.isPreLayout) {
             return
         }
-
-        detachAndScrapAttachedViews(recycler)
 
         fill(recycler)
     }
 
     private fun fill(recycler: RecyclerView.Recycler) {
-        fillVertical(recycler, 0)
-        recycleChildren(recycler)
+        fillVertical(recycler)
     }
 
-    private fun fillVertical(recycler: RecyclerView.Recycler, delta : Int) : Int {
+    private fun fillVertical(recycler: RecyclerView.Recycler) {
         detachAndScrapAttachedViews(recycler)
 
-        val dy = delta
-
         if (childHeight == -1) {
-            val tempPosition = firstVisibleIndex
-            val tempChild = recycler.getViewForPosition(tempPosition)
-            measureChildWithMargins(tempChild, 0, 0)
-            childHeight = getDecoratedMeasuredHeight(tempChild)
+            childWidth = (getHorizontalSpace() * 0.9f).toInt()
+            childHeight = (childWidth * 1.46f).toInt()
         }
 
-        firstVisibleIndex = 0
-        lastVisibleIndex = stackCount
+        verticalOffset = min(max(childHeight, verticalOffset), itemCount * childHeight)
 
-        var num = 0
+        var bottomItemPosition = floor((verticalOffset / childHeight).toDouble()).toInt()
+        val bottomItemVisibleHeight = verticalOffset % childHeight
 
-        var startY = normalMarginTop
+        val verticalSpace = getVerticalSpace()
+        val viewInfoArrayList = ArrayList<TrapezoidViewBean>()
+        var remainSpace = verticalSpace - childHeight
+        val offsetPercentRelativeToItemView = bottomItemVisibleHeight * mTranslateY / childHeight
+        var i = bottomItemPosition - 1
+        var j = 1
+        Log.e(TAG + "1", "verticalOffset : $verticalOffset ---------- bottomItemPosition : $bottomItemPosition --------- bottomItemVisibleHeight : $bottomItemVisibleHeight")
+        Log.e(TAG + "1", "verticalSpace : $verticalSpace ---------- remainSpace : $remainSpace --------- offsetPercentRelativeToItemView : $offsetPercentRelativeToItemView")
 
-        for (index in firstVisibleIndex..lastVisibleIndex) {
-            val child = recycler.getViewForPosition(index)
-            addView(child, 0)
-            measureChildWithMargins(child, 0, 0)
-
-            val l = paddingLeft
-            val t = startY.toInt()
-            val r = l + getDecoratedMeasurementHorizontal(child)
-            val b = t + getDecoratedMeasurementVertical(child)
-
-            val scale = 1.0f - scaleStep * num
-            child.scaleX = scale
-            child.scaleY = scale
-            val offset = (b - t) * (1 - scale) / 2
-            child.translationY = t - stackLengthStep * num - offset
-
-            Log.e(TAG, "translationY : ${child.translationY}")
-
-
-            layoutDecoratedWithMargins(child, l, t, r, b)
-
-            num++
-
+        while (i >= 0) {
+            val maxOffset = (verticalSpace - childHeight) / 2 * 0.9
+            val top = (remainSpace - offsetPercentRelativeToItemView * maxOffset).toInt()
+            val scaleXY = (mScale.toDouble().pow((j - 1).toDouble()) * (1 - offsetPercentRelativeToItemView * (1 - mScale))).toFloat()
+            val info = TrapezoidViewBean(top, scaleXY)
+            Log.e(TAG + "2", "position : $i ----- top : $top ---------- scaleXY : $scaleXY --------- maxOffset : $maxOffset")
+            viewInfoArrayList.add(0, info)
+            remainSpace = (remainSpace - maxOffset).toInt()
+            if (remainSpace <= 0) {
+                info.top = (remainSpace + maxOffset).toInt()
+                break
+            }
+            i--
+            j++
+        }
+        if (bottomItemPosition < itemCount) {
+            val start = (verticalSpace - bottomItemVisibleHeight)
+            val itemViewInfo = TrapezoidViewBean(start,
+                    1.0f)
+            viewInfoArrayList.add(itemViewInfo)
+            Log.e(TAG + "2", "position : special ----- top : $start ---------- scaleXY : 1.0f")
+        } else {
+            bottomItemPosition -= 1
         }
 
-        return dy
+        val layoutCount = viewInfoArrayList.size
+        val startPos = bottomItemPosition - (layoutCount - 1)
+        for (index in 0 until layoutCount) {
+            val view = recycler.getViewForPosition(startPos + index)
+            val layoutInfo = viewInfoArrayList[index]
+            addView(view)
+            measureChildWithExactlySize(view)
+            val left = (getHorizontalSpace() - childWidth) / 2
+            layoutDecoratedWithMargins(view, left, layoutInfo.top, left + childWidth, layoutInfo.top + childHeight)
+            view.pivotX = (view.width / 2).toFloat()
+            view.pivotY = 0f
+            view.scaleX = layoutInfo.scaleXY
+            view.scaleY = layoutInfo.scaleXY
+        }
+    }
+
+    private fun getMaxOffset(): Float {
+        return (childHeight + normalMarginTop) * itemCount - height
+    }
+
+    private fun getMinOffset(): Float {
+        return 0f
     }
 
     override fun canScrollVertically(): Boolean {
-        return false
+        return true
+    }
+
+    override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State): Int {
+        val pendingScrollOffset = verticalOffset + dy
+        verticalOffset = min(max(childHeight, verticalOffset + dy), itemCount * childHeight)
+        onLayoutChildren(recycler, state)
+        val res = (verticalOffset - pendingScrollOffset + dy).toInt()
+        Log.e(TAG, "dy : $dy <----------------> res : $res")
+        return res
     }
 
 
@@ -120,14 +154,26 @@ class PanelCardLayoutManager : RecyclerView.LayoutManager() {
         }
     }
 
-    private fun getDecoratedMeasurementHorizontal(view: View): Int {
-        val params = view.layoutParams as RecyclerView.LayoutParams
-        return (getDecoratedMeasuredWidth(view) + params.leftMargin + params.rightMargin)
+    /**
+     * 获取RecyclerView的显示高度
+     */
+    fun getVerticalSpace(): Int {
+        return height - paddingTop - paddingBottom
     }
 
-    private fun getDecoratedMeasurementVertical(view: View): Int {
-        val params = view.layoutParams as RecyclerView.LayoutParams
-        return (getDecoratedMeasuredHeight(view) + params.topMargin + params.bottomMargin)
+    /**
+     * 获取RecyclerView的显示宽度
+     */
+    fun getHorizontalSpace(): Int {
+        return width - paddingLeft - paddingRight
     }
+
+    private fun measureChildWithExactlySize(child: View) {
+        val widthSpec = View.MeasureSpec.makeMeasureSpec(childWidth, View.MeasureSpec.EXACTLY)
+        val heightSpec = View.MeasureSpec.makeMeasureSpec(childHeight, View.MeasureSpec.EXACTLY)
+        child.measure(widthSpec, heightSpec)
+    }
+
+    data class TrapezoidViewBean(var top : Int, var scaleXY : Float)
 
 }

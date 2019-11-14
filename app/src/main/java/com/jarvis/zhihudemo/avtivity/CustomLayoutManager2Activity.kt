@@ -12,7 +12,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.jarvis.zhihudemo.R
 import com.jarvis.zhihudemo.base.BaseActivity
-import com.jarvis.zhihudemo.widgets.layoutmanager.PanelCardLayoutManager
+import com.jarvis.zhihudemo.widgets.layoutmanager.CustomLinearLayoutManager
 import com.jarvis.zhihudemo.widgets.layoutmanager.StackLayoutManager
 
 /**
@@ -32,8 +32,9 @@ class CustomLayoutManager2Activity : BaseActivity() {
         recyclerView = findViewById(R.id.rv)
         recyclerView.run {
             adapter = Adapter(horRes)
-//            layoutManager = StackLayoutManager()
-            layoutManager = PanelCardLayoutManager()
+//            layoutManager = CustomLinearLayoutManager()
+//            layoutManager = PanelCardLayoutManager()
+            layoutManager = StackLayoutManager()
         }
     }
 
