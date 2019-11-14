@@ -14,6 +14,7 @@ import com.jarvis.zhihudemo.R
 import com.jarvis.zhihudemo.base.BaseActivity
 import com.jarvis.zhihudemo.widgets.layoutmanager.CustomLinearLayoutManager
 import com.jarvis.zhihudemo.widgets.layoutmanager.StackLayoutManager
+import com.jarvis.zhihudemo.widgets.layoutmanager.TrapezoidLayoutManager
 
 /**
  * @author yyf
@@ -33,8 +34,8 @@ class CustomLayoutManager2Activity : BaseActivity() {
         recyclerView.run {
             adapter = Adapter(horRes)
 //            layoutManager = CustomLinearLayoutManager()
-//            layoutManager = PanelCardLayoutManager()
-            layoutManager = StackLayoutManager()
+            layoutManager = TrapezoidLayoutManager()
+//            layoutManager = StackLayoutManager()
         }
     }
 

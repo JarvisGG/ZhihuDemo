@@ -13,11 +13,11 @@ import kotlin.math.pow
  * @author yyf
  * @since 11-13-2019
  */
-class PanelCardLayoutManager : RecyclerView.LayoutManager() {
+class TrapezoidLayoutManager : RecyclerView.LayoutManager() {
 
 
     companion object {
-        const val TAG = "PanelCardLayoutManager"
+        const val TAG = "TrapezoidLayoutManager"
     }
 
 
