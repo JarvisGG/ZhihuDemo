@@ -19,6 +19,9 @@ class SlipTouchCallback(
 
     companion object {
         const val TAG = "SlipTouchCallback"
+
+        const val MAX_ROTATION = 15
+
     }
 
     private val adapter by lazy {
@@ -30,6 +33,7 @@ class SlipTouchCallback(
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        viewHolder.itemView.rotation = 0f
         val data = adapter.remove(viewHolder.layoutPosition)
         adapter.notifyDataSetChanged()
     }
@@ -42,7 +46,7 @@ class SlipTouchCallback(
 
     override fun getAnimationDuration(recyclerView: RecyclerView?, animationType: Int, animateDx: Float, animateDy: Float): Long {
         val duration = super.getAnimationDuration(recyclerView, animationType, animateDx, animateDy)
-        return duration * 2
+        return duration * 3
     }
 
     override fun onChildDraw(
@@ -65,6 +69,11 @@ class SlipTouchCallback(
         for (index in firstIndex downTo lastIndex) {
             val childView = recyclerView.getChildAt(index)
             if (index == firstIndex) {
+                var fractionX = dX / getThreshold()
+                if (fractionX > 1) {
+                    fractionX = 1f
+                }
+                childView.rotation = fractionX * MAX_ROTATION
                 continue
             }
 
@@ -78,7 +87,7 @@ class SlipTouchCallback(
      * 设置移除阈值
      */
     private fun getThreshold() : Float {
-        return recyclerView.width * 0.5f
+        return recyclerView.width * 0.8f
     }
 
 }

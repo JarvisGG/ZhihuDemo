@@ -606,7 +606,7 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
                 }
                 final RecoverAnimation rv = new RecoverAnimation(prevSelected, animationType,
                         prevActionState, currentTranslateX, currentTranslateY,
-                        targetTranslateX, targetTranslateY) {
+                        targetTranslateX * 2, targetTranslateY * 2) {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);

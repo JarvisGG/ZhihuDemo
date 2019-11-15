@@ -93,13 +93,14 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
         var ifsIndex = 0
         for (index in firstVisibleIndex..lastVisibleIndex) {
             val child = recycler.getViewForPosition(index)
-            child.translationY = 0f
             addView(child)
             measureChildWithMargins(child, 0, 0)
             child.pivotX = childWidth / 2.toFloat()
             child.pivotY = 0f
             child.scaleX = ifs[ifsIndex].scale
             child.scaleY = ifs[ifsIndex].scale
+            child.translationY = 0f
+            child.rotation = 0f
 
             val containerTotalHeight = childHeight + translateStep * (TOTAL_COUNT - 1)
             val containerTotalWidth = childWidth
@@ -112,6 +113,8 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
             val b = t + childHeight
 
             layoutDecoratedWithMargins(child, l, t, r, b)
+
+            Log.e(TAG, "rotation : ${child.rotation}")
 
             ifsIndex++
         }
