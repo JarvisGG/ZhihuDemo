@@ -38,7 +38,7 @@ class CustomLayoutManager2Activity : BaseActivity() {
             layoutManager = SlipLayoutManager()
         }
 
-        CustomItemTouchHelper(SlipTouchCallback(0,
+        ItemTouchHelper(SlipTouchCallback(0,
                         ItemTouchHelper.LEFT or
                         ItemTouchHelper.RIGHT, recyclerView))
                 .attachToRecyclerView(recyclerView)

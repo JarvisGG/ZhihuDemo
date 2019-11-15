@@ -2,6 +2,7 @@ package com.jarvis.zhihudemo.widgets.layoutmanager
 
 import android.graphics.Canvas
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import com.jarvis.zhihudemo.avtivity.CustomLayoutManager2Activity
 import kotlin.math.pow
@@ -15,7 +16,7 @@ class SlipTouchCallback(
         dragDirs : Int,
         swipeDirs : Int,
         val recyclerView : RecyclerView
- ) : CustomItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
+ ) : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
 
     companion object {
         const val TAG = "SlipTouchCallback"
@@ -42,11 +43,6 @@ class SlipTouchCallback(
     override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?) {
         super.clearView(recyclerView, viewHolder)
         Log.e(TAG, "method : clearView")
-    }
-
-    override fun getAnimationDuration(recyclerView: RecyclerView?, animationType: Int, animateDx: Float, animateDy: Float): Long {
-        val duration = super.getAnimationDuration(recyclerView, animationType, animateDx, animateDy)
-        return duration * 3
     }
 
     override fun onChildDraw(

@@ -11,10 +11,10 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
 
     companion object {
         const val TAG = "SlipLayoutManager"
-        const val TOTAL_COUNT = 4
+        const val TOTAL_SLIP_COUNT = 4
     }
 
-    private var slipCount = TOTAL_COUNT
+    private var slipCount = TOTAL_SLIP_COUNT
 
     private val scaleStep = 0.05f
 
@@ -60,7 +60,7 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
 
         val ifs = arrayListOf<ViewInfo>()
 
-        firstVisibleIndex = itemCount - TOTAL_COUNT - 1
+        firstVisibleIndex = itemCount - TOTAL_SLIP_COUNT - 1
         if (firstVisibleIndex < 0) {
             firstVisibleIndex = 0
         }
@@ -70,15 +70,15 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
 
         var slipNum = 0
         for (index in firstVisibleIndex..lastVisibleIndex) {
-            var realNum = if (slipNum == 0 && slipCount == TOTAL_COUNT) 1 else slipNum
+            var realNum = if (slipNum == 0 && slipCount == TOTAL_SLIP_COUNT) 1 else slipNum
             val info = ViewInfo()
             info.scale = 1f - (slipCount - realNum) * scaleStep
 
-            if (slipCount < TOTAL_COUNT) {
+            if (slipCount < TOTAL_SLIP_COUNT) {
                 realNum++
             }
 
-            val temp = if (TOTAL_COUNT - slipCount - 1 <= 0) 0 else TOTAL_COUNT - slipCount - 1
+            val temp = if (TOTAL_SLIP_COUNT - slipCount - 1 <= 0) 0 else TOTAL_SLIP_COUNT - slipCount - 1
             info.translate = realNum * translateStep + (temp) * translateStep
             ifs.add(info)
 
@@ -89,6 +89,10 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
     }
 
     private fun layoutChildView(recycler: RecyclerView.Recycler, ifs : ArrayList<ViewInfo>) {
+
+        if (itemCount < 1) {
+            return
+        }
 
         var ifsIndex = 0
         for (index in firstVisibleIndex..lastVisibleIndex) {
@@ -102,7 +106,7 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
             child.translationY = 0f
             child.rotation = 0f
 
-            val containerTotalHeight = childHeight + translateStep * (TOTAL_COUNT - 1)
+            val containerTotalHeight = childHeight + translateStep * (TOTAL_SLIP_COUNT - 1)
             val containerTotalWidth = childWidth
             val leftOffset = (width - containerTotalWidth) / 2
             val topOffset = (height - containerTotalHeight) / 2
