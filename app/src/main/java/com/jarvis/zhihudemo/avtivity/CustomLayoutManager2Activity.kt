@@ -35,13 +35,21 @@ class CustomLayoutManager2Activity : BaseActivity() {
 //            layoutManager = CustomLinearLayoutManager()
 //            layoutManager = TrapezoidLayoutManager()
 //            layoutManager = StackLayoutManager()
-            layoutManager = SlipLayoutManager()
+            layoutManager = SlipLayoutManager().apply {
+                ItemTouchHelper(SlipTouchCallback(0,
+                        ItemTouchHelper.LEFT or
+                                ItemTouchHelper.RIGHT, recyclerView))
+                        .attachToRecyclerView(recyclerView)
+            }
+//            layoutManager = TanTanLayoutManager().apply {
+//                ItemTouchHelper(TanTanTouchCallback(0,
+//                        ItemTouchHelper.LEFT or
+//                                ItemTouchHelper.RIGHT, recyclerView, horRes))
+//                        .attachToRecyclerView(recyclerView)
+//            }
         }
 
-        ItemTouchHelper(SlipTouchCallback(0,
-                        ItemTouchHelper.LEFT or
-                        ItemTouchHelper.RIGHT, recyclerView))
-                .attachToRecyclerView(recyclerView)
+
     }
 
     inner class Adapter(data: ArrayList<Int>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
