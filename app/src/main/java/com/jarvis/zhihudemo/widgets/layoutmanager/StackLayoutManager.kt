@@ -58,8 +58,8 @@ class StackLayoutManager : RecyclerView.LayoutManager() {
         detachAndScrapAttachedViews(recycler)
         layoutChildView(recycler, ifs)
     }
-
     private fun createViewIfs(recycler: RecyclerView.Recycler) : ArrayList<ViewInfo> {
+
         if (onceCompleteScrollLength == -1) {
             val tempView = recycler.getViewForPosition(0)
             measureChildWithMargins(tempView, 0, 0)
@@ -149,6 +149,8 @@ class StackLayoutManager : RecyclerView.LayoutManager() {
 
     private fun recycleChildren(recycler: RecyclerView.Recycler) {
         val scrapList = recycler.scrapList
+        Log.e(TAG, "scrapList.size : ${scrapList.size}")
+
         for (i in scrapList.indices) {
             val holder = scrapList[i]
             removeAndRecycleView(holder.itemView, recycler)

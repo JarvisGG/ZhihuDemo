@@ -31,7 +31,6 @@ class TrapezoidLayoutManager : RecyclerView.LayoutManager() {
 
     private var verticalOffset = Integer.MAX_VALUE
 
-
     private var mScale = 0.95f
 
     private var mTranslateY = 0.9f

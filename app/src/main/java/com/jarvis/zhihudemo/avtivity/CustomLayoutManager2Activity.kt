@@ -3,6 +3,7 @@ package com.jarvis.zhihudemo.avtivity
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.jarvis.zhihudemo.R
 import com.jarvis.zhihudemo.base.BaseActivity
-import com.jarvis.zhihudemo.widgets.layoutmanager.CustomLinearLayoutManager
-import com.jarvis.zhihudemo.widgets.layoutmanager.StackLayoutManager
-import com.jarvis.zhihudemo.widgets.layoutmanager.TrapezoidLayoutManager
+import com.jarvis.zhihudemo.widgets.layoutmanager.*
 
 /**
  * @author yyf
@@ -34,14 +33,22 @@ class CustomLayoutManager2Activity : BaseActivity() {
         recyclerView.run {
             adapter = Adapter(horRes)
 //            layoutManager = CustomLinearLayoutManager()
-            layoutManager = TrapezoidLayoutManager()
+//            layoutManager = TrapezoidLayoutManager()
 //            layoutManager = StackLayoutManager()
+            layoutManager = SlipLayoutManager()
         }
+
+        CustomItemTouchHelper(SlipTouchCallback(0,
+                        ItemTouchHelper.DOWN or
+                        ItemTouchHelper.UP or
+                        ItemTouchHelper.LEFT or
+                        ItemTouchHelper.RIGHT, recyclerView))
+                .attachToRecyclerView(recyclerView)
     }
 
-    inner class Adapter(data: List<Int>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+    inner class Adapter(data: ArrayList<Int>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
-        private var datas: List<Int> = data
+        private var datas: ArrayList<Int> = data
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
@@ -57,6 +64,14 @@ class CustomLayoutManager2Activity : BaseActivity() {
             Glide.with(holder.iv.context).load(datas[realPosition]).into(holder.iv)
             holder.tv.text = datas[realPosition].toString()
 
+        }
+
+        fun remove(position: Int): Int {
+            return datas.removeAt(position)
+        }
+
+        fun add(position : Int, data : Int) {
+            datas.add(position, data)
         }
 
         inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
