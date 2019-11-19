@@ -39,18 +39,6 @@ class CustomLayoutManager2Activity : BaseActivity() {
 //            layoutManager = CustomLinearLayoutManager()
 //            layoutManager = TrapezoidLayoutManager()
 //            layoutManager = StackLayoutManager()
-//            layoutManager = SlipLayoutManager().apply {
-//                ItemTouchHelper(SlipTouchCallback(0,
-//                        ItemTouchHelper.LEFT or
-//                                ItemTouchHelper.RIGHT, recyclerView))
-//                        .attachToRecyclerView(recyclerView)
-//            }
-//            layoutManager = TanTanLayoutManager().apply {
-//                ItemTouchHelper(TanTanTouchCallback(0,
-//                        ItemTouchHelper.LEFT or
-//                                ItemTouchHelper.RIGHT, recyclerView, horRes))
-//                        .attachToRecyclerView(recyclerView)
-//            }
         }
         adapter = Adapter(horRes).apply {
             recyclerView.adapter = this
