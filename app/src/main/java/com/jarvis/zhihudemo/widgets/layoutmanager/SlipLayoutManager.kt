@@ -1,24 +1,26 @@
 package com.jarvis.zhihudemo.widgets.layoutmanager
 
+import android.support.annotation.Px
 import android.support.v7.widget.RecyclerView
-import android.util.Log
+import com.jarvis.zhihudemo.widgets.utils.dp2px
 
 /**
  * @author yyf
  * @since 11-14-2019
  */
-class SlipLayoutManager : RecyclerView.LayoutManager() {
+class SlipLayoutManager(
+        var translateStep: Int = DEFAULT_TRANSLATE_STEP,
+        var scaleStep: Float = DEFAULT_SCALE_STEP,
+        var slipNum: Int = DEFAULT_TOTAL_SLIP_COUNT
+) : RecyclerView.LayoutManager() {
 
     companion object {
-        const val TAG = "SlipLayoutManager"
-        const val TOTAL_SLIP_COUNT = 4
+        const val DEFAULT_TOTAL_SLIP_COUNT = 4
+        const val DEFAULT_TRANSLATE_STEP = 20
+        const val DEFAULT_SCALE_STEP = 0.05f
     }
 
-    private var slipCount = TOTAL_SLIP_COUNT
-
-    private val scaleStep = 0.05f
-
-    private val translateStep = 20
+    private var slipCount: Int = slipNum
 
     private var firstVisibleIndex = 0
 
@@ -60,7 +62,7 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
 
         val ifs = arrayListOf<ViewInfo>()
 
-        firstVisibleIndex = itemCount - TOTAL_SLIP_COUNT - 1
+        firstVisibleIndex = itemCount - slipNum - 1
         if (firstVisibleIndex < 0) {
             firstVisibleIndex = 0
         }
@@ -68,21 +70,21 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
 
         slipCount = lastVisibleIndex - firstVisibleIndex
 
-        var slipNum = 0
+        var count = 0
         for (index in firstVisibleIndex..lastVisibleIndex) {
-            var realNum = if (slipNum == 0 && slipCount == TOTAL_SLIP_COUNT) 1 else slipNum
+            var realNum = if (count == 0 && slipCount == slipNum) 1 else count
             val info = ViewInfo()
             info.scale = 1f - (slipCount - realNum) * scaleStep
 
-            if (slipCount < TOTAL_SLIP_COUNT) {
+            if (slipCount < slipNum) {
                 realNum++
             }
 
-            val temp = if (TOTAL_SLIP_COUNT - slipCount - 1 <= 0) 0 else TOTAL_SLIP_COUNT - slipCount - 1
+            val temp = if (slipNum - slipCount - 1 <= 0) 0 else slipNum - slipCount - 1
             info.translate = realNum * translateStep + (temp) * translateStep
             ifs.add(info)
 
-            slipNum ++
+            count ++
         }
 
         return ifs
@@ -106,7 +108,7 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
             child.translationY = 0f
             child.rotation = 0f
 
-            val containerTotalHeight = childHeight + translateStep * (TOTAL_SLIP_COUNT - 1)
+            val containerTotalHeight = childHeight + translateStep * (slipNum - 1)
             val containerTotalWidth = childWidth
             val leftOffset = (width - containerTotalWidth) / 2
             val topOffset = (height - containerTotalHeight) / 2
@@ -118,8 +120,6 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
 
             layoutDecoratedWithMargins(child, l, t, r, b)
 
-            Log.e(TAG, "rotation : ${child.rotation}")
-
             ifsIndex++
         }
 
@@ -128,5 +128,39 @@ class SlipLayoutManager : RecyclerView.LayoutManager() {
     data class ViewInfo(var scale : Float = 1f, var translate : Int = 0)
 
 
+    class SlipBuilder() {
+        constructor(init: SlipBuilder.() -> Unit): this() {
+            init()
+        }
 
+        @Px
+        private var translateStep: Int = DEFAULT_TRANSLATE_STEP
+        fun translateStep(init: () -> Int) {
+            translateStep = init().dp2px
+        }
+
+        private var scaleStep: Float = DEFAULT_SCALE_STEP
+        fun scaleStep(init: () -> Float) {
+            scaleStep = init()
+        }
+
+        private var slipNum: Int = DEFAULT_TOTAL_SLIP_COUNT
+        fun slipNum(init: () -> Int) {
+            slipNum = init()
+        }
+
+        fun build() : SlipLayoutManager {
+            return SlipLayoutManager(translateStep, scaleStep, slipNum)
+        }
+    }
+}
+
+fun slipLayoutManagerBuilder(init: SlipLayoutManager.SlipBuilder.() -> Unit) : SlipLayoutManager {
+    return SlipLayoutManager.SlipBuilder(init).build()
+}
+
+fun bindLayoutManager(recyclerView: RecyclerView, init: SlipLayoutManager.SlipBuilder.() -> Unit): SlipLayoutManager {
+    return slipLayoutManagerBuilder(init).apply {
+        recyclerView.layoutManager = this
+    }
 }

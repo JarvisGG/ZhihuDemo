@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import com.jarvis.zhihudemo.avtivity.CustomLayoutManager2Activity
+import com.jarvis.zhihudemo.widgets.layoutmanager.SlipTouchCallback.Companion.DEFAULT_MAX_ROTATION
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -12,22 +13,91 @@ import kotlin.math.sqrt
  * @author yyf
  * @since 11-14-2019
  */
+class SlipTouchCallbackBuilder(
+        private var recyclerView: RecyclerView,
+        private var layoutManager: SlipLayoutManager,
+        init: SlipTouchCallbackBuilder.() -> Unit
+) {
+
+    /**
+     * 允许拖拽方向
+     */
+    private var dragDirs : Int = 0
+    fun dragDirs(init: () -> Int) {
+        this.dragDirs = init()
+    }
+
+    /**
+     * 允许侧滑方向
+     */
+    private var swipeDirs : Int = 0
+    fun swipeDirs(init: () -> Int) {
+        this.swipeDirs = init()
+    }
+
+    /**
+     * 侧滑最大角度
+     */
+    private var rotationLimit : Int = DEFAULT_MAX_ROTATION
+    fun rotationLimit(init: () -> Int) {
+        this.rotationLimit = init()
+    }
+
+    /**
+     * 左右滑动更新值
+     */
+    private var notifyFraction: ((fraction : Float) -> Unit)? = null
+    fun notifyFraction(init: () -> ((fraction : Float) -> Unit)) {
+        this.notifyFraction = init()
+    }
+
+    /**
+     * 删除第一个卡片
+     */
+    private var notifyItemRemove: ((position : Int) -> Unit)? = null
+    fun notifyItemRemove(init: () -> ((position : Int) -> Unit)) {
+        this.notifyItemRemove = init()
+    }
+
+
+    fun build() : SlipTouchCallback {
+        return SlipTouchCallback(layoutManager, dragDirs, swipeDirs, rotationLimit, notifyFraction, notifyItemRemove, recyclerView)
+    }
+
+    init {
+        init()
+    }
+}
+
+fun slipTouchCallbackBuilder(
+        recyclerView: RecyclerView,
+        layoutManager: SlipLayoutManager,
+        init : SlipTouchCallbackBuilder.() -> Unit
+) = SlipTouchCallbackBuilder(recyclerView, layoutManager, init).build()
+
+fun bindTouchHelper(
+        recyclerView: RecyclerView,
+        layoutManager: SlipLayoutManager,
+        init : SlipTouchCallbackBuilder.() -> Unit
+) {
+    CustomItemTouchHelper(slipTouchCallbackBuilder(recyclerView, layoutManager, init)).attachToRecyclerView(recyclerView)
+}
+
 class SlipTouchCallback(
-        dragDirs : Int,
-        swipeDirs : Int,
-        val recyclerView : RecyclerView
- ) : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
+        private val layoutManager: SlipLayoutManager,
+        private val dragDirs: Int,
+        private val swipeDirs: Int,
+        private val rotationLimit: Int = DEFAULT_MAX_ROTATION,
+        private val notifyFraction: ((fraction : Float) -> Unit)? = null,
+        private val notifyItemRemove: ((position : Int) -> Unit)? = null,
+        private val recyclerView : RecyclerView
+) : CustomItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
 
     companion object {
         const val TAG = "SlipTouchCallback"
-
-        const val MAX_ROTATION = 15
-
+        const val DEFAULT_MAX_ROTATION = 15
     }
 
-    private val adapter by lazy {
-        recyclerView.adapter as CustomLayoutManager2Activity.Adapter
-    }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         return false
@@ -35,14 +105,20 @@ class SlipTouchCallback(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         viewHolder.itemView.rotation = 0f
-        val data = adapter.remove(viewHolder.layoutPosition)
-        adapter.notifyDataSetChanged()
+        notifyItemRemove?.invoke(viewHolder.layoutPosition)
     }
 
+    override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
+        return 0.6f
+    }
 
-    override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?) {
-        super.clearView(recyclerView, viewHolder)
-        Log.e(TAG, "method : clearView")
+    override fun getAnimationThreshold(): Float {
+        return 1.3f
+    }
+
+    override fun getAnimationDuration(recyclerView: RecyclerView?, animationType: Int, animateDx: Float, animateDy: Float): Long {
+        val duration = super.getAnimationDuration(recyclerView, animationType, animateDx, animateDy)
+        return (duration * 1.2f).toLong()
     }
 
     override fun onChildDraw(
@@ -61,7 +137,7 @@ class SlipTouchCallback(
             fraction = 1f
         }
         val firstIndex = recyclerView.childCount - 1
-        val lastIndex = if (recyclerView.childCount < 5) 0 else 1
+        val lastIndex = if (recyclerView.childCount < layoutManager.slipNum + 1) 0 else 1
         for (index in firstIndex downTo lastIndex) {
             val childView = recyclerView.getChildAt(index)
             if (index == firstIndex) {
@@ -69,14 +145,15 @@ class SlipTouchCallback(
                 if (fractionX > 1) {
                     fractionX = 1f
                 }
-                childView.rotation = fractionX * MAX_ROTATION
+                childView.rotation = fractionX * rotationLimit
                 continue
             }
 
-            childView.translationY = 20 * fraction
-            childView.scaleX = (1f - (firstIndex - index) * 0.05f) + 0.05f * fraction
-            childView.scaleY = (1f - (firstIndex - index) * 0.05f) + 0.05f * fraction
+            childView.translationY = layoutManager.translateStep * fraction
+            childView.scaleX = (1f - (firstIndex - index) * layoutManager.scaleStep) + layoutManager.scaleStep * fraction
+            childView.scaleY = (1f - (firstIndex - index) * layoutManager.scaleStep) + layoutManager.scaleStep * fraction
         }
+        notifyFraction?.invoke(fraction)
     }
 
     /**

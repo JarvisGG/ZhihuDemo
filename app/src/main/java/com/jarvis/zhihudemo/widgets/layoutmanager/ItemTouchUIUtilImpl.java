@@ -18,7 +18,6 @@ package com.jarvis.zhihudemo.widgets.layoutmanager;
 
 import android.graphics.Canvas;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.recyclerview.R;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchUIUtil;
 import android.view.View;
@@ -31,14 +30,14 @@ class ItemTouchUIUtilImpl {
     static class Api21Impl extends BaseImpl {
         @Override
         public void onDraw(Canvas c, RecyclerView recyclerView, View view,
-                float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                           float dX, float dY, int actionState, boolean isCurrentlyActive) {
             if (isCurrentlyActive) {
-                Object originalElevation = view.getTag(R.id.item_touch_helper_previous_elevation);
+                Object originalElevation = view.getTag(android.support.v7.recyclerview.R.id.item_touch_helper_previous_elevation);
                 if (originalElevation == null) {
                     originalElevation = ViewCompat.getElevation(view);
                     float newElevation = 1f + findMaxElevation(recyclerView, view);
                     ViewCompat.setElevation(view, newElevation);
-                    view.setTag(R.id.item_touch_helper_previous_elevation, originalElevation);
+                    view.setTag(android.support.v7.recyclerview.R.id.item_touch_helper_previous_elevation, originalElevation);
                 }
             }
             super.onDraw(c, recyclerView, view, dX, dY, actionState, isCurrentlyActive);
@@ -62,11 +61,11 @@ class ItemTouchUIUtilImpl {
 
         @Override
         public void clearView(View view) {
-            final Object tag = view.getTag(R.id.item_touch_helper_previous_elevation);
+            final Object tag = view.getTag(android.support.v7.recyclerview.R.id.item_touch_helper_previous_elevation);
             if (tag != null && tag instanceof Float) {
                 ViewCompat.setElevation(view, (Float) tag);
             }
-            view.setTag(R.id.item_touch_helper_previous_elevation, null);
+            view.setTag(android.support.v7.recyclerview.R.id.item_touch_helper_previous_elevation, null);
             super.clearView(view);
         }
     }
@@ -86,7 +85,7 @@ class ItemTouchUIUtilImpl {
 
         @Override
         public void onDraw(Canvas c, RecyclerView recyclerView, View view,
-                float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                           float dX, float dY, int actionState, boolean isCurrentlyActive) {
             view.setTranslationX(dX);
             view.setTranslationY(dY);
         }

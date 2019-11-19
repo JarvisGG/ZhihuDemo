@@ -26,21 +26,25 @@ class CustomLayoutManager2Activity : BaseActivity() {
 
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var layoutManager: SlipLayoutManager
+
+    private lateinit var adapter: Adapter
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_layout_manager)
         recyclerView = findViewById(R.id.rv)
         recyclerView.run {
-            adapter = Adapter(horRes)
 //            layoutManager = CustomLinearLayoutManager()
 //            layoutManager = TrapezoidLayoutManager()
 //            layoutManager = StackLayoutManager()
-            layoutManager = SlipLayoutManager().apply {
-                ItemTouchHelper(SlipTouchCallback(0,
-                        ItemTouchHelper.LEFT or
-                                ItemTouchHelper.RIGHT, recyclerView))
-                        .attachToRecyclerView(recyclerView)
-            }
+//            layoutManager = SlipLayoutManager().apply {
+//                ItemTouchHelper(SlipTouchCallback(0,
+//                        ItemTouchHelper.LEFT or
+//                                ItemTouchHelper.RIGHT, recyclerView))
+//                        .attachToRecyclerView(recyclerView)
+//            }
 //            layoutManager = TanTanLayoutManager().apply {
 //                ItemTouchHelper(TanTanTouchCallback(0,
 //                        ItemTouchHelper.LEFT or
@@ -48,8 +52,26 @@ class CustomLayoutManager2Activity : BaseActivity() {
 //                        .attachToRecyclerView(recyclerView)
 //            }
         }
+        adapter = Adapter(horRes).apply {
+            recyclerView.adapter = this
+        }
 
+        layoutManager = bindLayoutManager(recyclerView) {
+            slipNum { 4 }
+            scaleStep { 0.05f }
+            translateStep { 10 }
+        }
+        bindTouchHelper(recyclerView, layoutManager)  {
+            swipeDirs { ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT }
+            rotationLimit { 15 }
+            notifyItemRemove { ::displayCardRemove }
 
+        }
+    }
+
+    private fun displayCardRemove(position: Int) {
+        horRes.removeAt(position)
+        adapter.notifyDataSetChanged()
     }
 
     inner class Adapter(data: ArrayList<Int>) : RecyclerView.Adapter<Adapter.ViewHolder>() {

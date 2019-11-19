@@ -25,7 +25,6 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.recyclerview.R;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnItemTouchListener;
@@ -261,7 +260,7 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
     /**
      * Used for detecting fling swipe
      */
-    VelocityTracker mVelocityTracker;
+    private VelocityTracker mVelocityTracker;
 
     //re-used list for selecting a swap target
     private List<ViewHolder> mSwapTargets;
@@ -279,19 +278,19 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
      * until view reaches its final position (end of recover animation), we keep a reference so
      * that it can be drawn above other children.
      */
-    View mOverdrawChild = null;
+    private View mOverdrawChild = null;
 
     /**
      * We cache the position of the overdraw child to avoid recalculating it each time child
      * position callback is called. This value is invalidated whenever a child is attached or
      * detached.
      */
-    int mOverdrawChildPosition = -1;
+    private int mOverdrawChildPosition = -1;
 
     /**
      * Used to detect long press.
      */
-    GestureDetectorCompat mGestureDetector;
+    private GestureDetectorCompat mGestureDetector;
 
     private final OnItemTouchListener mOnItemTouchListener = new OnItemTouchListener() {
         @Override
@@ -456,9 +455,9 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
         if (mRecyclerView != null) {
             final Resources resources = recyclerView.getResources();
             mSwipeEscapeVelocity = resources
-                    .getDimension(R.dimen.item_touch_helper_swipe_escape_velocity);
+                    .getDimension(android.support.v7.recyclerview.R.dimen.item_touch_helper_swipe_escape_velocity);
             mMaxSwipeVelocity = resources
-                    .getDimension(R.dimen.item_touch_helper_swipe_escape_max_velocity);
+                    .getDimension(android.support.v7.recyclerview.R.dimen.item_touch_helper_swipe_escape_max_velocity);
             setupCallbacks();
         }
     }
@@ -552,6 +551,10 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
         endRecoverAnimation(selected, true);
         mActionState = actionState;
         if (actionState == ACTION_STATE_DRAG) {
+            if (selected == null) {
+                throw new IllegalArgumentException("Must pass a ViewHolder when dragging");
+            }
+
             // we remove after animation is complete. this means we only elevate the last drag
             // child but that should perform good enough as it is very hard to start dragging a
             // new child before the previous one settles.
@@ -571,6 +574,23 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
                 // find where we should animate to
                 float targetTranslateX, targetTranslateY;
                 int animationType;
+                switch (swipeDir) {
+                    case LEFT:
+                    case RIGHT:
+                    case START:
+                    case END:
+                        targetTranslateY = 0;
+                        targetTranslateX = Math.signum(mDx) * mRecyclerView.getWidth() * mCallback.getAnimationThreshold();
+                        break;
+                    case UP:
+                    case DOWN:
+                        targetTranslateX = 0;
+                        targetTranslateY = Math.signum(mDy) * mRecyclerView.getHeight() * mCallback.getAnimationThreshold();
+                        break;
+                    default:
+                        targetTranslateX = 0;
+                        targetTranslateY = 0;
+                }
                 if (prevActionState == ACTION_STATE_DRAG) {
                     animationType = ANIMATION_TYPE_DRAG;
                 } else if (swipeDir > 0) {
@@ -581,32 +601,9 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
                 getSelectedDxDy(mTmpPosition);
                 final float currentTranslateX = mTmpPosition[0];
                 final float currentTranslateY = mTmpPosition[1];
-                boolean isXoverY = Math.abs(currentTranslateX / currentTranslateY) > Math.abs(mRecyclerView.getWidth() * 1.0 / mRecyclerView.getHeight());
-
-                if (isXoverY) {
-                    targetTranslateX = mRecyclerView.getWidth();
-                    targetTranslateY =  Math.abs(targetTranslateX * currentTranslateY / currentTranslateX);
-                } else {
-                    targetTranslateY = mRecyclerView.getHeight();
-                    targetTranslateX =  Math.abs(targetTranslateY * currentTranslateX / currentTranslateY);
-                }
-                switch (swipeDir) {
-                    case LEFT:
-                    case RIGHT:
-                    case START:
-                    case END:
-                    case UP:
-                    case DOWN:
-                        targetTranslateX = targetTranslateX * Math.signum(mDx);
-                        targetTranslateY = targetTranslateY * Math.signum(mDy);
-                        break;
-                    default:
-                        targetTranslateX = 0;
-                        targetTranslateY = 0;
-                }
                 final RecoverAnimation rv = new RecoverAnimation(prevSelected, animationType,
                         prevActionState, currentTranslateX, currentTranslateY,
-                        targetTranslateX * 2, targetTranslateY * 2) {
+                        targetTranslateX, targetTranslateY) {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
@@ -1339,7 +1336,7 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
      * dragging View overlaps multiple other views, Callback chooses the closest View with which
      * dragged View might have changed positions. Although this approach works for many use cases,
      * if you have a custom LayoutManager, you can override
-     * {@link #chooseDropTarget(ViewHolder, java.util.List, int, int)} to select a
+     * {@link #chooseDropTarget(ViewHolder, List, int, int)} to select a
      * custom drop target.
      * <p>
      * When a View is swiped, CustomItemTouchHelper animates it until it goes out of bounds, then calls
@@ -1443,7 +1440,7 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
          *
          * @param flags           The flag value that include any number of movement flags.
          * @param layoutDirection The layout direction of the View. Can be obtained from
-         *                        {@link ViewCompat#getLayoutDirection(android.view.View)}.
+         *                        {@link ViewCompat#getLayoutDirection(View)}.
          * @return Updated flags which uses relative flags ({@link #START}, {@link #END}) instead
          * of {@link #LEFT}, {@link #RIGHT}.
          * @see #convertToAbsoluteDirection(int, int)
@@ -1578,7 +1575,7 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
          * <p>
          * This method is used when selecting drop target for the dragged View. After Views are
          * eliminated either via bounds check or via this method, resulting set of views will be
-         * passed to {@link #chooseDropTarget(ViewHolder, java.util.List, int, int)}.
+         * passed to {@link #chooseDropTarget(ViewHolder, List, int, int)}.
          * <p>
          * Default implementation returns true.
          *
@@ -1669,6 +1666,10 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
          */
         public float getSwipeThreshold(ViewHolder viewHolder) {
             return .5f;
+        }
+
+        public float getAnimationThreshold() {
+            return 1f;
         }
 
         /**
@@ -1861,7 +1862,7 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
         private int getMaxDragScroll(RecyclerView recyclerView) {
             if (mCachedMaxScrollSpeed == -1) {
                 mCachedMaxScrollSpeed = recyclerView.getResources().getDimensionPixelSize(
-                        R.dimen.item_touch_helper_max_drag_scroll_per_frame);
+                        android.support.v7.recyclerview.R.dimen.item_touch_helper_max_drag_scroll_per_frame);
             }
             return mCachedMaxScrollSpeed;
         }
@@ -1934,7 +1935,7 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
         }
 
         void onDraw(Canvas c, RecyclerView parent, ViewHolder selected,
-                    List<CustomItemTouchHelper.RecoverAnimation> recoverAnimationList,
+                    List<RecoverAnimation> recoverAnimationList,
                     int actionState, float dX, float dY) {
             final int recoverAnimSize = recoverAnimationList.size();
             for (int i = 0; i < recoverAnimSize; i++) {
@@ -1953,7 +1954,7 @@ public class CustomItemTouchHelper extends RecyclerView.ItemDecoration
         }
 
         void onDrawOver(Canvas c, RecyclerView parent, ViewHolder selected,
-                        List<CustomItemTouchHelper.RecoverAnimation> recoverAnimationList,
+                        List<RecoverAnimation> recoverAnimationList,
                         int actionState, float dX, float dY) {
             final int recoverAnimSize = recoverAnimationList.size();
             for (int i = 0; i < recoverAnimSize; i++) {
